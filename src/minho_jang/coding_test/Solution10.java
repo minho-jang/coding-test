@@ -4,13 +4,12 @@ package minho_jang.coding_test;
  * 2020.12.13.
  * 
  * LEVEL 1
- * 내
+ * 내적  
  * 출처: https://programmers.co.kr/learn/courses/30/lessons/70128
  * 
  * @author minho
  *
  */
-//import java.util.*;
 public class Solution10 {
 	public int solution(int[] a, int[] b) {
         int answer = 0;
