@@ -14,9 +14,43 @@ public class Solution2 {
 	public int solution(int n) {
         int answer = 0;
         
-        // 풀다가 코드 날아감...
-        // 날아간 시점에 이미 시간초과 
+        String third = intToThird(n);
+        answer = thirdToInt(third);
         
         return answer;
+    }
+    
+    String intToThird(int n) {
+        StringBuffer sb = new StringBuffer();
+        while (n != 0) {
+            int r = n % 3;
+            sb.append(Integer.toString(r));
+            n /= 3;
+        }
+        
+        StringBuffer revSb = new StringBuffer();
+        for (int i = sb.length()-1; i >= 0; i--) {
+            char c = sb.charAt(i);
+            revSb.append(c);
+        }
+        
+        return revSb.toString();
+    }
+    
+    int thirdToInt(String s) {
+        StringBuffer sb = new StringBuffer(s);
+        int sum = 0;
+        for (int i = sb.length()-1; i >= 0; i--) {
+            char c = sb.charAt(i);
+            if (c == '0') {
+                sum += 0 * Math.pow(3, i);
+            } else if (c == '1') {
+                sum += 1 * Math.pow(3, i);
+            } else if (c == '2') {
+                sum += 2 * Math.pow(3, i);
+            }
+        }
+        
+        return sum;
     }
 }
