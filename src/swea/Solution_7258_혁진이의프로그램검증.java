@@ -7,10 +7,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Solution_7258_ÇõÁøÀÌÀÇÇÁ·Î±×·¥°ËÁõ {
+public class Solution_7258_í˜ì§„ì´ì˜í”„ë¡œê·¸ë¨ê²€ì¦ {
 	static int[] dr = {0, 1, 0, -1};
 	static int[] dc = {1, 0, -1, 0};
-	//				      ¿ì     ÇÏ     ÁÂ     »ó
 	
 	static Queue<int[]> queue;
 	static int R, C, answer, memory, commandCount;
@@ -57,7 +56,7 @@ public class Solution_7258_ÇõÁøÀÌÀÇÇÁ·Î±×·¥°ËÁõ {
 //			System.out.println(polled[0] + " " + polled[1] + " " + polled[2] + "  " + "mem=" + memory);
 			commandCount++;
 			
-			if (commandCount > 1000) {	// 1000°³ ³Ñ°Ô Å½»öÇÏ¸é ¹«ÇÑ·çÇÁ¶ó°í ÆÇ´Ü
+			if (commandCount > 1000) {	
 				return;
 			}
 			
