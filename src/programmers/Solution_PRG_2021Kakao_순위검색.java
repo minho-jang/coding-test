@@ -22,6 +22,7 @@ class Solution_PRG_2021Kakao_순위검색 {
 						key.append(toIntCode("-", k));
 					}
 				}
+				
 				if (map.containsKey(key.toString())) {
 					map.get(key.toString()).add(score);
 				} else {
@@ -33,12 +34,15 @@ class Solution_PRG_2021Kakao_순위검색 {
 		}
     	
     	map.forEach((key, value) -> {
+    		Collections.sort(value);
+    		
     		System.out.print(key.toString() + " : ");
     		for (int i : value) {
     			System.out.print(i + " ");
 			}
     		System.out.println();
     	});
+    	System.out.println();
     	
     	int qIdx = 0;
     	for (String q : query) {
@@ -51,10 +55,27 @@ class Solution_PRG_2021Kakao_순위검색 {
 			
 			int score = Integer.parseInt(stk.nextToken());
 			
+			System.out.println(key.toString() + " " + score);
 			int count = 0;
 			List<Integer> tmp = map.get(key.toString());
-			for (int i : tmp) {
-				if (i >= score) 	count++;
+			if (tmp != null) {
+				// 이진탐색
+				int size = tmp.size();
+				int start=0, end=size, mid=size/2;
+				do {
+					mid = start + ((end-start)/2);
+					if (tmp.get(mid) >= score) {
+						end = mid;
+						
+					} else if (tmp.get(mid) < score) {
+						if (start == mid)
+							start = end;
+						else
+							start = mid;
+						
+					}
+				} while(end-start > 0);
+				count = size - end;
 			}
 			
 			answer[qIdx++] = count;
@@ -96,16 +117,36 @@ class Solution_PRG_2021Kakao_순위검색 {
 	public static void main(String[] args) {
 		Solution_PRG_2021Kakao_순위검색 s = new Solution_PRG_2021Kakao_순위검색();
 //		String[] info = {
-//				"java backend junior pizza 150",
-//				"python frontend senior chicken 210",
-//				"python frontend senior chicken 150",
-//				"cpp backend senior pizza 260",
-//				"java backend junior chicken 80",
-//				"python backend senior chicken 50"};
-		String[] info = {"java backend junior pizza 150",
+//			"java backend junior pizza 150",
+//			"python frontend senior chicken 210",
+//			"python frontend senior chicken 150",
+//			"cpp backend senior pizza 260",
+//			"java backend junior chicken 80",
+//			"python backend senior chicken 50"
+//		};
+//		String[] query = {
+//			"java and backend and junior and pizza 100",
+//			"python and frontend and senior and chicken 200",
+//			"cpp and - and senior and pizza 250",
+//			"- and backend and senior and - 150",
+//			"- and - and - and chicken 100",
+//			"- and - and - and - 150"
+//		};
+		
+		String[] info = {
+				"cpp backend senior pizza 260",
+				"cpp backend senior pizza 260",
+				"cpp backend senior pizza 260",
+				"java backend junior chicken 80",
 				"python backend senior chicken 50"
 		};
-		String[] query = {"- and backend and - and - 150"};
+		String[] query = {
+				"java and backend and junior and pizza 100",
+				"python and frontend and senior and chicken 200",
+				"cpp and - and senior and pizza 250",
+				"- and backend and senior and - 150"
+		};
+		
 		int[] ans = s.solution(info, query);
 		System.out.println(Arrays.toString(ans));
 	}
