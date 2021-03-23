@@ -26,6 +26,7 @@ public class Main_BOJ_1463_1로만들기 {
 			dp[i] = min;
 		}
 		
-		System.out.println(Arrays.toString(dp));
+//		System.out.println(Arrays.toString(dp));
+		System.out.println(dp[1]);
 	}
 }
