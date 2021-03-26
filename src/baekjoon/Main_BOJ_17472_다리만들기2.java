@@ -143,3 +143,163 @@ public class Main_BOJ_17472_다리만들기2 {
 		}
 	}
 }
+
+/*
+
+public class Main_BOJ_17472_다리만들기22 {
+	static int[] dr = {0, 1, -1, 0};
+	static int[] dc = {1, 0, 0, -1};
+	static int N, M;
+	
+	public static void main(String[] args) throws IOException {
+		System.setIn(new FileInputStream("input.txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
+		
+		stk = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(stk.nextToken());
+		M = Integer.parseInt(stk.nextToken());
+		
+		int[][] map = new int[N][M];
+		for (int i = 0; i < N; i++) {
+			stk = new StringTokenizer(br.readLine());
+			for (int j = 0; j < M; j++) {
+				map[i][j] = Integer.parseInt(stk.nextToken());
+			}
+		}
+		
+		// 섬 넘버링
+		int islandNum = 2;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (map[i][j] == 1) {
+					
+					// 해당 모든 구역 넘버링
+					dfs(map, i, j, islandNum++);
+					
+				}
+			}
+		}
+		
+		// 2부터 넘버링 한 걸 1씩 감소
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (map[i][j] > 0)
+					map[i][j]--;
+			}
+		}
+		
+//		for (int i = 0; i < N; i++) {
+//			System.out.println(Arrays.toString(map[i]));
+//		}
+		
+		islandNum -= 2;
+		// 현 위치가 섬이라면 사방으로 다리를 건설하고 길이를 구한다.
+		// 이미 길이가 존재하면 최소값을 저장한다.
+		int[][] adjMatrix = new int[islandNum][islandNum];
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				
+				if (map[i][j] > 0) {
+					int r=i, c=j;
+					for (int d = 0; d < 4; d++) {
+						int nr = r + dr[d];
+						int nc = c + dc[d];
+						
+						int length = 0;	// 다리 길이
+						// 한 방향으로 직진. 다리 건설
+						while(true) {
+							
+							if (nr < 0 || nr >= N || nc < 0 || nc >= M) 
+								break;
+							if (map[nr][nc] == map[i][j])
+								break;
+							if (map[nr][nc] > 0) {
+								if (length < 2) // 길이가 2이상이어야 한다
+									break;
+								
+								// 인접행렬에 저장
+								if (adjMatrix[map[i][j]-1][map[nr][nc]-1] == 0)
+									adjMatrix[map[i][j]-1][map[nr][nc]-1] = length;
+								else
+									adjMatrix[map[i][j]-1][map[nr][nc]-1] = Math.min(length, adjMatrix[map[i][j]-1][map[nr][nc]-1]);
+								break;
+							}
+							
+							length++;
+							nr += dr[d];
+							nc += dc[d];
+						}
+						
+					}
+					
+				}
+					
+			}
+		}
+		
+//		for (int i = 0; i < islandNum; i++) {
+//			System.out.println(Arrays.toString(adjMatrix[i]));
+//		}
+//		System.out.println();
+		
+		// 만들어진 인접행렬로 MST 구하기
+		// 0에서 출발
+		int[] distance = new int[islandNum];
+		Arrays.fill(distance, 987654321);
+		distance[0] = 0;
+		boolean[] visited = new boolean[islandNum];
+		for (int i = 0; i < islandNum; i++) {
+			// distance 중 최소값 찾기
+			int min = 987654321;
+			int minIdx = -1;
+			for (int k = 0; k < islandNum; k++) {
+				if (!visited[k] && min > distance[k]) {
+					min = distance[k];
+					minIdx = k;
+				}
+			}
+			
+			if (minIdx == -1)
+				break;
+			
+			visited[minIdx] = true;
+			
+			// 거리 업데이트
+			for (int k = 0; k < islandNum; k++) {
+				if (!visited[k] && adjMatrix[minIdx][k] > 0 && distance[k] > adjMatrix[minIdx][k])
+					distance[k] = adjMatrix[minIdx][k];
+			}
+		}
+		
+//		System.out.println(Arrays.toString(distance));
+		
+		int distanceSum = 0;
+		for (int i = 0; i < islandNum; i++) {
+			if (distance[i] == 987654321) {
+				System.out.println(-1);
+				return;
+			}
+			distanceSum += distance[i];
+		}
+		System.out.println(distanceSum);
+	}
+
+	private static void dfs(int[][] map, int r, int c, int num) {
+		map[r][c] = num;
+		for (int d = 0; d < 4; d++) {
+			int nr = r + dr[d];
+			int nc = c + dc[d];
+			
+			if (nr < 0 || nr >= N || nc < 0 || nc >= M) 
+				continue;
+			
+			if (map[nr][nc] == 1)
+				dfs(map, nr, nc, num);
+		}
+	}
+}
+
+
+
+*/
