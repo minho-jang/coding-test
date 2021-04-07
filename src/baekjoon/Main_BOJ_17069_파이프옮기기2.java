@@ -6,36 +6,11 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_17069_파이프옮기기2 {
-	static int[] dr = {0, 1, 1};
-	static int[] dc = {1, 0, 1};
-	//				      우, 하, 대각
-	static int[][] dir = {
-			{0, 2},
-			{1, 2},
-			{0, 1, 2}};
-	static class Pipe {
-		int r, c;
-		int d;
-		public Pipe(int r, int c, int d) {
-			super();
-			this.r = r;
-			this.c = c;
-			this.d = d;
-		}
-		public int getEndR() {
-			return r + dr[d];
-		}
-		public int getEndC() {
-			return c + dc[d];
-		}
-		@Override
-		public String toString() {
-			return "(" + r + ", " + c + ", " + d + ")";
-		}
-	}
+	
 	static int N, answer = 0;
 	static int[][] map;
 	static long[][][] visited;
+	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer stk;
