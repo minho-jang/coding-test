@@ -9,6 +9,139 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Solution_1953_탈주범검거 {
+	static int[] dr = {-1, 1, 0, 0};
+	static int[] dc = {0, 0, -1, 1};
+	static class Node {
+		int r, c;
+		int type;
+		boolean[] direction;
+		
+		public Node(int r, int c, int type) {
+			super();
+			this.r = r;
+			this.c = c;
+			this.type = type;
+			if (type == 0) {				  //  상            하              좌            우
+				this.direction = new boolean[] {false, false, false, false};
+				
+			} else if (type == 1) {				
+				this.direction = new boolean[] {true, true, true, true};
+				
+			} else if (type == 2) {
+				this.direction = new boolean[] {true, true, false, false};
+				
+			} else if (type == 3) {
+				this.direction = new boolean[] {false, false, true, true};
+				
+			} else if (type == 4) {
+				this.direction = new boolean[] {true, false, false, true};
+				
+			} else if (type == 5) {
+				this.direction = new boolean[] {false, true, false, true};
+				
+			} else if (type == 6) {
+				this.direction = new boolean[] {false, true, true, false};
+				
+			} else if (type == 7) {
+				this.direction = new boolean[] {true, false, true, false};
+				
+			}
+		}
+
+		@Override
+		public String toString() {
+			return "[" + r + ", " + c + ", " + type + "]";
+		}
+	}
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		System.setIn(new FileInputStream("input.txt"));
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
+		StringBuilder answerSb = new StringBuilder();
+		
+		int T = Integer.parseInt(br.readLine());
+		for (int tc = 1; tc <= T; tc++) {
+			
+			stk = new StringTokenizer(br.readLine());
+			int R = Integer.parseInt(stk.nextToken());
+			int C = Integer.parseInt(stk.nextToken());
+			int holeR = Integer.parseInt(stk.nextToken());
+			int holeC = Integer.parseInt(stk.nextToken());
+			int L = Integer.parseInt(stk.nextToken());
+			
+			Node[][] map = new Node[R][C];
+			for (int i = 0; i < R; i++) {
+				stk = new StringTokenizer(br.readLine());
+				for (int j = 0; j < C; j++) {
+					map[i][j] = new Node(i, j, Integer.parseInt(stk.nextToken()));
+				}
+			}
+			
+			//BFS
+			boolean[][] visited = new boolean[R][C];
+			Queue<Node> queue = new LinkedList<>();
+			
+			visited[holeR][holeC] = true;
+			queue.add(map[holeR][holeC]);
+			
+			int count = 1;
+			int level = 1;
+			while(!queue.isEmpty()) {
+				if (level == L)
+					break;
+				
+				int size = queue.size();
+				for (int i = 0; i < size; i++) {
+					Node polled = queue.poll();
+					for (int d = 0; d < 4; d++) {
+						if (! polled.direction[d])	// 현재 위치에서 연결된 곳이어야 함
+							continue;
+						
+						int nr = polled.r + dr[d];
+						int nc = polled.c + dc[d];
+						
+						if (nr<0 || nr>=R || nc<0 || nc>=C)	// 범위를 벗어나면 안됨
+							continue;
+						if (visited[nr][nc])	// 방문한 곳 또 방문할 필요 없음
+							continue;
+						if (! map[nr][nc].direction[getAcross(d)])	// 이동하려는 곳에 파이프 연결 되어있어야 함
+							continue;
+						
+						count++;
+						visited[nr][nc] = true;
+						queue.offer(map[nr][nc]);
+					}
+				}
+				
+				level++;
+			}
+			
+			answerSb.append("#").append(tc).append(" ").append(count).append("\n");
+		}
+		
+		System.out.println(answerSb.toString());
+	}
+
+	private static int getAcross(int d) {	// 방향에 따라 반대편 방향 번호를 리턴
+		if (d == 0) {
+			return 1;
+		} else if (d == 1) {
+			return 0;
+		} else if (d == 2) {
+			return 3;
+		} else if (d == 3) {
+			return 2;
+		}
+		
+		return -1;
+	}
+}
+
+
+/*
+public class Solution_1953_탈주범검거 {
 	static class Pos {
 		int r, c, type;
 		public Pos(int r, int c, int type) {
@@ -114,3 +247,4 @@ public class Solution_1953_탈주범검거 {
 		System.out.print(answerSb.toString());
 	}
 }
+*/
