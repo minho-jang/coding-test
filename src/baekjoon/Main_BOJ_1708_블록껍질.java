@@ -69,6 +69,8 @@ public class Main_BOJ_1708_블록껍질 {
 			
 			while (stack.size() >= 2) {
 				Pos popped = stack.pop();
+				
+				// peek >> pop >> points[i] 벡터외적
 				Pos v1 = new Pos(popped.x-stack.peek().x , popped.y-stack.peek().y);
 				Pos v2 = new Pos(points[i].x-popped.x , points[i].y-popped.y);
 			
