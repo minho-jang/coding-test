@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_15683_감시 {
@@ -111,9 +110,9 @@ public class Main_BOJ_15683_감시 {
 					if (tmpMap[r][c] == 6) 
 						break;
 					
-					if (tmpMap[r][c] == 0) {
+					if (tmpMap[r][c] == 0) 
 						tmpMap[r][c] = 7;
-					}
+					
 					r += dr[d];
 					c += dc[d];
 				}
