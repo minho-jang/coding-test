@@ -11,7 +11,6 @@ public class Main_BOJ_10159_저울 {
 	static boolean[] visited;
 	static int N, M;
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		Scanner sc = new Scanner(System.in);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer stk;
 		StringBuilder answerSb = new StringBuilder();
