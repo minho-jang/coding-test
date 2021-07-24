@@ -1,6 +1,6 @@
 package leetcode;
 
-import java.util.*;
+import java.util.HashMap;
 
 class Solution_LC_TwoSum {
     public int[] twoSum(int[] nums, int target) {

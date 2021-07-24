@@ -1,7 +1,7 @@
 package programmers;
 
 public class Solution_PRG_타겟넘버 {
-	static int[] numbers;
+    static int[] numbers;
     static int answer, N, target;
 
     public int solution(int[] numbers, int target) {
@@ -21,8 +21,8 @@ public class Solution_PRG_타겟넘버 {
             return;
         }
 
-        dfs(cnt+1, result+numbers[cnt]);
-        dfs(cnt+1, result-numbers[cnt]);
+        dfs(cnt + 1, result + numbers[cnt]);
+        dfs(cnt + 1, result - numbers[cnt]);
     }
 }
 

@@ -6,60 +6,60 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_9205_맥주마시면서걸어가기 {
-	
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer stk;
-		StringBuilder answer = new StringBuilder();
 
-		int T = Integer.parseInt(br.readLine());
-		for (int tc = 0; tc < T; tc++) {
-			// input
-			int N = Integer.parseInt(br.readLine());
-			int[][] nodes = new int[N+2][2];
-			for (int j = 0; j < N+2; j++) {
-				stk = new StringTokenizer(br.readLine());
-				nodes[j][0] = Integer.parseInt(stk.nextToken());
-				nodes[j][1] = Integer.parseInt(stk.nextToken());
-			}
-			
-			// logic
-			// 플루이드-워샬
-			int[][] adjMatrix = new int[N+2][N+2];
-			// 각 노드에 대해서 거리가 1,000m이하인 간선 표시
-			for (int j = 0; j < N+2; j++) {
-				int[] node1 = nodes[j];
-				for (int j2 = j+1; j2 < N+2; j2++) {
-					int[] node2 = nodes[j2];
-					int distance = Math.abs(node2[0]-node1[0]) + Math.abs(node2[1]-node1[1]);
-					if (distance > 1000)
-						adjMatrix[j][j2] = adjMatrix[j2][j] = 987654321;
-					else
-						adjMatrix[j][j2] = adjMatrix[j2][j] = distance;
-				}
-			}
-			
-			for (int k = 0; k < N+2; k++) {
-				for (int i = 0; i < N+2; i++) {
-					if (i == k)	continue;
-					for (int j = 0; j < N+2; j++) {
-						if (j == i || j == k)	continue;
-						
-						adjMatrix[i][j] = Math.min(adjMatrix[i][k]+adjMatrix[k][j], adjMatrix[i][j]);
-					}
-				}
-			}
-			
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stk;
+        StringBuilder answer = new StringBuilder();
+
+        int T = Integer.parseInt(br.readLine());
+        for (int tc = 0; tc < T; tc++) {
+            // input
+            int N = Integer.parseInt(br.readLine());
+            int[][] nodes = new int[N + 2][2];
+            for (int j = 0; j < N + 2; j++) {
+                stk = new StringTokenizer(br.readLine());
+                nodes[j][0] = Integer.parseInt(stk.nextToken());
+                nodes[j][1] = Integer.parseInt(stk.nextToken());
+            }
+
+            // logic
+            // 플루이드-워샬
+            int[][] adjMatrix = new int[N + 2][N + 2];
+            // 각 노드에 대해서 거리가 1,000m이하인 간선 표시
+            for (int j = 0; j < N + 2; j++) {
+                int[] node1 = nodes[j];
+                for (int j2 = j + 1; j2 < N + 2; j2++) {
+                    int[] node2 = nodes[j2];
+                    int distance = Math.abs(node2[0] - node1[0]) + Math.abs(node2[1] - node1[1]);
+                    if (distance > 1000)
+                        adjMatrix[j][j2] = adjMatrix[j2][j] = 987654321;
+                    else
+                        adjMatrix[j][j2] = adjMatrix[j2][j] = distance;
+                }
+            }
+
+            for (int k = 0; k < N + 2; k++) {
+                for (int i = 0; i < N + 2; i++) {
+                    if (i == k) continue;
+                    for (int j = 0; j < N + 2; j++) {
+                        if (j == i || j == k) continue;
+
+                        adjMatrix[i][j] = Math.min(adjMatrix[i][k] + adjMatrix[k][j], adjMatrix[i][j]);
+                    }
+                }
+            }
+
 //			System.out.println(adjMatrix[0][N+1]);
-			int minDistance = adjMatrix[0][N+1];
-			if (minDistance == 987654321)
-				answer.append("sad\n");
-			else
-				answer.append("happy\n");
-		}
-		
-		System.out.println(answer.toString());
-	}
+            int minDistance = adjMatrix[0][N + 1];
+            if (minDistance == 987654321)
+                answer.append("sad\n");
+            else
+                answer.append("happy\n");
+        }
+
+        System.out.println(answer.toString());
+    }
 }
 
 /*

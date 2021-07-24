@@ -2,19 +2,20 @@ package minho_jang.coding_test;
 /**
  * 프로그래머스 코딩 테스트 연습
  * 2020.12.21.
- * 
+ * <p>
  * LEVEL 2
- * 기능개발   
+ * 기능개발
  * 출처: https://programmers.co.kr/learn/courses/30/lessons/42586
- * 
- * @author minho
  *
+ * @author minho
  */
-import java.util.*;
+
+import java.util.ArrayList;
+
 public class Solution16 {
-	public int[] solution(int[] progresses, int[] speeds) {
+    public int[] solution(int[] progresses, int[] speeds) {
         int[] answer = {};
-        
+
         int len = progresses.length;
         // 각각 스피드로 며칠 후에 배포가능한지 계산한 배열
         ArrayList<Integer> releasePossibleDay = new ArrayList<>();
@@ -28,7 +29,7 @@ public class Solution16 {
             }
             releasePossibleDay.add(day);
         }
-        
+
         int maxDay = releasePossibleDay.get(0);
         int count = 1;
         ArrayList<Integer> answerArrlst = new ArrayList<>();
@@ -43,12 +44,12 @@ public class Solution16 {
             }
         }
         answerArrlst.add(count);
-         
+
         answer = new int[answerArrlst.size()];
         for (int i = 0; i < answer.length; i++) {
             answer[i] = answerArrlst.get(i);
         }
-        
+
         return answer;
     }
 }
