@@ -9,55 +9,55 @@ import java.util.StringTokenizer;
 
 // A -> B
 public class Main_BOJ_16953_AtoB {
-    static int answer;
+	static int answer;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-        stk = new StringTokenizer(br.readLine());
-        long src = Integer.parseInt(stk.nextToken());
-        long dest = Integer.parseInt(stk.nextToken());
+		stk = new StringTokenizer(br.readLine());
+		long src = Integer.parseInt(stk.nextToken());
+		long dest = Integer.parseInt(stk.nextToken());
 
-        answer = -1;
+		answer = -1;
 
-        // BFS
-        int level = 0;
-        Deque<Long> queue = new ArrayDeque<>();
-        queue.offer(src);
-        while (!queue.isEmpty()) {
+		// BFS
+		int level = 0;
+		Deque<Long> queue = new ArrayDeque<>();
+		queue.offer(src);
+		while (!queue.isEmpty()) {
 //			System.out.println("level: " + level);
 
-            boolean hit = false;
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                long polled = queue.poll();
+			boolean hit = false;
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				long polled = queue.poll();
 //				System.out.print(polled + " ");
-                if (polled == dest) {
-                    hit = true;
-                    break;
-                }
-                if (polled > dest) {
-                    continue;
-                }
+				if (polled == dest) {
+					hit = true;
+					break;
+				}
+				if (polled > dest) {
+					continue;
+				}
 
-                queue.offer(polled * 10 + 1);
-                queue.offer(polled * 2);
-            }
+				queue.offer(polled * 10 + 1);
+				queue.offer(polled * 2);
+			}
 //			System.out.println();
 
-            if (hit) {
-                answer = level;
-                break;
-            }
+			if (hit) {
+				answer = level;
+				break;
+			}
 
-            level++;
-        }
+			level++;
+		}
 
-        if (answer >= 0)
-            answer++;
-        System.out.println(answer);
-    }
+		if (answer >= 0)
+			answer++;
+		System.out.println(answer);
+	}
 }
 
 /*

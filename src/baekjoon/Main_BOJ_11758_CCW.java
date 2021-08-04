@@ -3,37 +3,37 @@ package baekjoon;
 import java.util.Scanner;
 
 public class Main_BOJ_11758_CCW {
-    static class Vec {
-        int x, y;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Vec a = new Vec(sc.nextInt(), sc.nextInt());
+		Vec b = new Vec(sc.nextInt(), sc.nextInt());
+		Vec c = new Vec(sc.nextInt(), sc.nextInt());
 
-        public Vec(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
+		Vec ab = new Vec(b.x - a.x, b.y - a.y);
+		Vec bc = new Vec(c.x - b.x, c.y - b.y);
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Vec a = new Vec(sc.nextInt(), sc.nextInt());
-        Vec b = new Vec(sc.nextInt(), sc.nextInt());
-        Vec c = new Vec(sc.nextInt(), sc.nextInt());
+		int result = crossProduct(ab, bc);
 
-        Vec ab = new Vec(b.x - a.x, b.y - a.y);
-        Vec bc = new Vec(c.x - b.x, c.y - b.y);
+		if (result < 0) {
+			System.out.println(-1);
+		} else if (result > 0) {
+			System.out.println(1);
+		} else
+			System.out.println(0);
 
-        int result = crossProduct(ab, bc);
+		sc.close();
+	}
 
-        if (result < 0) {
-            System.out.println(-1);
-        } else if (result > 0) {
-            System.out.println(1);
-        } else
-            System.out.println(0);
+	private static int crossProduct(Vec ab, Vec bc) {
+		return ab.x * bc.y - bc.x * ab.y;
+	}
 
-        sc.close();
-    }
+	static class Vec {
+		int x, y;
 
-    private static int crossProduct(Vec ab, Vec bc) {
-        return ab.x * bc.y - bc.x * ab.y;
-    }
+		public Vec(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
 }

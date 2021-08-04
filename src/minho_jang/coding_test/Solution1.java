@@ -11,22 +11,22 @@ package minho_jang.coding_test;
  * @author minho
  */
 public class Solution1 {
-    public boolean solution(String s) {
-        boolean answer = true;
+	public boolean solution(String s) {
+		boolean answer = true;
 
-        if (s.length() == 4 || s.length() == 6) {
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) <= '9' && s.charAt(i) >= '0') {
-                    continue;
-                } else {
-                    answer = false;
-                    break;
-                }
-            }
-        } else {
-            answer = false;
-        }
+		if (s.length() == 4 || s.length() == 6) {
+			for (int i = 0; i < s.length(); i++) {
+				if (s.charAt(i) <= '9' && s.charAt(i) >= '0') {
+					continue;
+				} else {
+					answer = false;
+					break;
+				}
+			}
+		} else {
+			answer = false;
+		}
 
-        return answer;
-    }
+		return answer;
+	}
 }

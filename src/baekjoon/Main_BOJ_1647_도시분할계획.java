@@ -6,73 +6,73 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_1647_도시분할계획 {
-    static class Node {
-        int from, to, weight;
+	private static int[] parent;
 
-        Node(int from, int to, int weight) {
-            this.from = from;
-            this.to = to;
-            this.weight = weight;
-        }
-    }
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+		stk = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(stk.nextToken());    // 집의 개수
+		int M = Integer.parseInt(stk.nextToken());    // 길의 개수
 
-        stk = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(stk.nextToken());    // 집의 개수
-        int M = Integer.parseInt(stk.nextToken());    // 길의 개수
+		PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.weight - o2.weight);
+		for (int i = 0; i < M; i++) {
+			stk = new StringTokenizer(br.readLine());
+			int from = Integer.parseInt(stk.nextToken()) - 1;
+			int to = Integer.parseInt(stk.nextToken()) - 1;
+			int weight = Integer.parseInt(stk.nextToken());
+			pq.add(new Node(from, to, weight));
+		}
 
-        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.weight - o2.weight);
-        for (int i = 0; i < M; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int from = Integer.parseInt(stk.nextToken()) - 1;
-            int to = Integer.parseInt(stk.nextToken()) - 1;
-            int weight = Integer.parseInt(stk.nextToken());
-            pq.add(new Node(from, to, weight));
-        }
+		// 크루스칼
+		init(N);
+		int count = 0;
+		int answer = 0;
+		while (count < N - 2) {
+			Node minEdge = pq.poll();
 
-        // 크루스칼
-        init(N);
-        int count = 0;
-        int answer = 0;
-        while (count < N - 2) {
-            Node minEdge = pq.poll();
+			if (union(minEdge.from, minEdge.to)) {
+				count++;
+				answer += minEdge.weight;
+			}
+		}
 
-            if (union(minEdge.from, minEdge.to)) {
-                count++;
-                answer += minEdge.weight;
-            }
-        }
+		System.out.println(answer);
+	}
 
-        System.out.println(answer);
-    }
+	private static void init(int N) {
+		parent = new int[N];
+		for (int i = 0; i < N; i++)
+			parent[i] = i;
+	}
 
-    private static int[] parent;
+	private static boolean union(int a, int b) {
+		int pa = find(a);
+		int pb = find(b);
+		if (pa != pb) {
+			parent[pb] = pa;
+			return true;
+		}
+		return false;
+	}
 
-    private static void init(int N) {
-        parent = new int[N];
-        for (int i = 0; i < N; i++)
-            parent[i] = i;
-    }
+	private static int find(int a) {
+		if (parent[a] == a)
+			return a;
+		else
+			return parent[a] = find(parent[a]);
+	}
 
-    private static boolean union(int a, int b) {
-        int pa = find(a);
-        int pb = find(b);
-        if (pa != pb) {
-            parent[pb] = pa;
-            return true;
-        }
-        return false;
-    }
+	static class Node {
+		int from, to, weight;
 
-    private static int find(int a) {
-        if (parent[a] == a)
-            return a;
-        else
-            return parent[a] = find(parent[a]);
-    }
+		Node(int from, int to, int weight) {
+			this.from = from;
+			this.to = to;
+			this.weight = weight;
+		}
+	}
 }
 
 /*

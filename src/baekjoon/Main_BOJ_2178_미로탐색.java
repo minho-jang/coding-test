@@ -1,21 +1,16 @@
 package baekjoon;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main_BOJ_2178_미로탐색 {
 	static int[] dr = {-1, 1, 0, 0};
 	static int[] dc = {0, 0, -1, 1};
-	static class Pos {
-		int r, c;
-		int distance;
-		Pos(int r, int c, int distance) {
-			this.r = r;
-			this.c = c;
-			this.distance = distance;
-		}
-	}
 	static int R, C;
+
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer stk;
@@ -25,7 +20,7 @@ public class Main_BOJ_2178_미로탐색 {
 		C = Integer.parseInt(stk.nextToken());
 
 		char[][] map = new char[R][C];
-		for (int i=0; i<R; i++) {
+		for (int i = 0; i < R; i++) {
 			map[i] = br.readLine().toCharArray();
 		}
 
@@ -35,14 +30,14 @@ public class Main_BOJ_2178_미로탐색 {
 		visited[0][0] = true;
 
 		int answer = 0;
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			Pos polled = queue.poll();
-			if (polled.r == R-1 && polled.c == C-1) {
+			if (polled.r == R - 1 && polled.c == C - 1) {
 				answer = polled.distance;
 				break;
 			}
 
-			for (int d=0; d<4; d++) {
+			for (int d = 0; d < 4; d++) {
 				int nr = polled.r + dr[d];
 				int nc = polled.c + dc[d];
 
@@ -60,5 +55,16 @@ public class Main_BOJ_2178_미로탐색 {
 
 	private static boolean isOut(int r, int c) {
 		return r < 0 || r >= R || c < 0 || c >= C;
+	}
+
+	static class Pos {
+		int r, c;
+		int distance;
+
+		Pos(int r, int c, int distance) {
+			this.r = r;
+			this.c = c;
+			this.distance = distance;
+		}
 	}
 }

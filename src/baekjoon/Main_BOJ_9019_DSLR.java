@@ -8,86 +8,86 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_9019_DSLR {
-    final static int MAX = 10000;
+	final static int MAX = 10000;
 
-    static class Node {
-        int num;
-        String commands;
+	public static void main(String[] args) throws Exception {
+		System.setIn(new FileInputStream("input.txt"));
 
-        Node(int num, String commands) {
-            this.num = num;
-            this.commands = commands;
-        }
-    }
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
+		StringBuilder answerSb = new StringBuilder();
 
-    public static void main(String[] args) throws Exception {
-        System.setIn(new FileInputStream("input.txt"));
+		int T = Integer.parseInt(br.readLine());
+		for (int tc = 0; tc < T; tc++) {
+			stk = new StringTokenizer(br.readLine());
+			int start = Integer.parseInt(stk.nextToken());
+			int end = Integer.parseInt(stk.nextToken());
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
-        StringBuilder answerSb = new StringBuilder();
+			boolean[] visited = new boolean[MAX];
+			Queue<Node> queue = new LinkedList<>();
+			visited[start] = true;
+			queue.add(new Node(start, ""));
 
-        int T = Integer.parseInt(br.readLine());
-        for (int tc = 0; tc < T; tc++) {
-            stk = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(stk.nextToken());
-            int end = Integer.parseInt(stk.nextToken());
+			String answer = "";
+			while (!queue.isEmpty()) {
+				Node polled = queue.poll();
+				if (polled.num == end) {
+					answer = polled.commands;
+					break;
+				}
 
-            boolean[] visited = new boolean[MAX];
-            Queue<Node> queue = new LinkedList<>();
-            visited[start] = true;
-            queue.add(new Node(start, ""));
+				int result = 0;
+				result = D(polled.num);
+				if (!visited[result]) {
+					visited[result] = true;
+					queue.add(new Node(result, polled.commands + "D"));
+				}
+				result = S(polled.num);
+				if (!visited[result]) {
+					visited[result] = true;
+					queue.add(new Node(result, polled.commands + "S"));
+				}
+				result = L(polled.num);
+				if (!visited[result]) {
+					visited[result] = true;
+					queue.add(new Node(result, polled.commands + "L"));
+				}
+				result = R(polled.num);
+				if (!visited[result]) {
+					visited[result] = true;
+					queue.add(new Node(result, polled.commands + "R"));
+				}
+			}
 
-            String answer = "";
-            while (!queue.isEmpty()) {
-                Node polled = queue.poll();
-                if (polled.num == end) {
-                    answer = polled.commands;
-                    break;
-                }
+			answerSb.append(answer).append("\n");
+		}
 
-                int result = 0;
-                result = D(polled.num);
-                if (!visited[result]) {
-                    visited[result] = true;
-                    queue.add(new Node(result, polled.commands + "D"));
-                }
-                result = S(polled.num);
-                if (!visited[result]) {
-                    visited[result] = true;
-                    queue.add(new Node(result, polled.commands + "S"));
-                }
-                result = L(polled.num);
-                if (!visited[result]) {
-                    visited[result] = true;
-                    queue.add(new Node(result, polled.commands + "L"));
-                }
-                result = R(polled.num);
-                if (!visited[result]) {
-                    visited[result] = true;
-                    queue.add(new Node(result, polled.commands + "R"));
-                }
-            }
+		System.out.print(answerSb.toString());
+	}
 
-            answerSb.append(answer).append("\n");
-        }
+	private static int R(int num) {
+		return num / 10 + (num % 10) * 1000;
+	}
 
-        System.out.print(answerSb.toString());
-    }
+	private static int L(int num) {
+		return num / 1000 + (num % 1000) * 10;
+	}
 
-    private static int R(int num) {
-        return num / 10 + (num % 10) * 1000;
-    }
+	private static int S(int num) {
+		return num == 0 ? 9999 : num - 1;
+	}
 
-    private static int L(int num) {
-        return num / 1000 + (num % 1000) * 10;
-    }
+	private static int D(int num) {
+		return (num * 2) % MAX;
+	}
 
-    private static int S(int num) {
-        return num == 0 ? 9999 : num - 1;
-    }
+	static class Node {
+		int num;
+		String commands;
 
-    private static int D(int num) {
-        return (num * 2) % MAX;
-    }
+		Node(int num, String commands) {
+			this.num = num;
+			this.commands = commands;
+		}
+	}
 }

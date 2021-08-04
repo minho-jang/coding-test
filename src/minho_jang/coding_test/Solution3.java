@@ -11,19 +11,19 @@ package minho_jang.coding_test;
  * @author minho
  */
 public class Solution3 {
-    public String solution(int a, int b) {
-        String answer = "";
-        String[] week = {"FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"};
-        int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	public String solution(int a, int b) {
+		String answer = "";
+		String[] week = {"FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"};
+		int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-        int daySum = 0;
-        for (int i = 0; i < a - 1; i++) {
-            daySum += days[i];
-        }
-        daySum += b - 1;
+		int daySum = 0;
+		for (int i = 0; i < a - 1; i++) {
+			daySum += days[i];
+		}
+		daySum += b - 1;
 
-        answer = week[daySum % 7];
+		answer = week[daySum % 7];
 
-        return answer;
-    }
+		return answer;
+	}
 }

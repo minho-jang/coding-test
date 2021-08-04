@@ -11,17 +11,17 @@ package minho_jang.coding_test;
  * @author minho
  */
 public class Solution6 {
-    public String solution(String s) {
-        StringBuffer answer = new StringBuffer();
+	public String solution(String s) {
+		StringBuffer answer = new StringBuffer();
 
-        int center = s.length() / 2;
-        if (s.length() % 2 == 1) {
-            answer.append(s.charAt(center));
-        } else {
-            answer.append(s.charAt(center - 1));
-            answer.append(s.charAt(center));
-        }
+		int center = s.length() / 2;
+		if (s.length() % 2 == 1) {
+			answer.append(s.charAt(center));
+		} else {
+			answer.append(s.charAt(center - 1));
+			answer.append(s.charAt(center));
+		}
 
-        return answer.toString();
-    }
+		return answer.toString();
+	}
 }

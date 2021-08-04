@@ -6,107 +6,107 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main_BOJ_17471_게리맨더링 {
-    static int N, answer;
-    static ArrayList<Integer>[] adjList;
-    static int[] populations;
+	static int N, answer;
+	static ArrayList<Integer>[] adjList;
+	static int[] populations;
 
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-        answer = 987654321;
-        N = Integer.parseInt(br.readLine());
+		answer = 987654321;
+		N = Integer.parseInt(br.readLine());
 
-        stk = new StringTokenizer(br.readLine());
-        populations = new int[N];
-        for (int i = 0; i < N; i++) {
-            populations[i] = Integer.parseInt(stk.nextToken());
-        }
+		stk = new StringTokenizer(br.readLine());
+		populations = new int[N];
+		for (int i = 0; i < N; i++) {
+			populations[i] = Integer.parseInt(stk.nextToken());
+		}
 
-        adjList = new ArrayList[N];
-        for (int i = 0; i < N; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int num = Integer.parseInt(stk.nextToken());
-            adjList[i] = new ArrayList<>();
-            for (int j = 0; j < num; j++) {
-                adjList[i].add(Integer.parseInt(stk.nextToken()) - 1);
-            }
-        }
+		adjList = new ArrayList[N];
+		for (int i = 0; i < N; i++) {
+			stk = new StringTokenizer(br.readLine());
+			int num = Integer.parseInt(stk.nextToken());
+			adjList[i] = new ArrayList<>();
+			for (int j = 0; j < num; j++) {
+				adjList[i].add(Integer.parseInt(stk.nextToken()) - 1);
+			}
+		}
 
-        subset(0, new boolean[N]);
+		subset(0, new boolean[N]);
 
-        if (answer == 987654321)
-            answer = -1;
+		if (answer == 987654321)
+			answer = -1;
 
-        System.out.println(answer);
-    }
+		System.out.println(answer);
+	}
 
-    private static void subset(int cnt, boolean[] visited) {
-        if (cnt == N) {
-            boolean[] reverseVisited = new boolean[N];
-            for (int i = 0; i < N; i++) {
-                reverseVisited[i] = !visited[i];
-            }
+	private static void subset(int cnt, boolean[] visited) {
+		if (cnt == N) {
+			boolean[] reverseVisited = new boolean[N];
+			for (int i = 0; i < N; i++) {
+				reverseVisited[i] = !visited[i];
+			}
 
-            int popA = getPopulation(visited);
-            int popB = getPopulation(reverseVisited);
+			int popA = getPopulation(visited);
+			int popB = getPopulation(reverseVisited);
 
-            if (popA > 0 && popB > 0)
-                answer = Math.min(answer, Math.abs(popA - popB));
+			if (popA > 0 && popB > 0)
+				answer = Math.min(answer, Math.abs(popA - popB));
 
-            return;
-        }
+			return;
+		}
 
-        visited[cnt] = true;
-        subset(cnt + 1, visited);
-        visited[cnt] = false;
-        subset(cnt + 1, visited);
-    }
+		visited[cnt] = true;
+		subset(cnt + 1, visited);
+		visited[cnt] = false;
+		subset(cnt + 1, visited);
+	}
 
-    // area의 연결성을 확인하면서 인구합 구하기. area에서 true인 곳을 탐색하므로 visited의 반대개념
-    private static int getPopulation(boolean[] area) {
-        boolean[] notVisited = Arrays.copyOf(area, N);
+	// area의 연결성을 확인하면서 인구합 구하기. area에서 true인 곳을 탐색하므로 visited의 반대개념
+	private static int getPopulation(boolean[] area) {
+		boolean[] notVisited = Arrays.copyOf(area, N);
 
-        // BFS 시작 찾기
-        int start = -1;
-        for (int i = 0; i < N; i++) {
-            if (notVisited[i]) {
-                start = i;
-                break;
-            }
-        }
+		// BFS 시작 찾기
+		int start = -1;
+		for (int i = 0; i < N; i++) {
+			if (notVisited[i]) {
+				start = i;
+				break;
+			}
+		}
 
-        if (start == -1)    // area에 소속된 구역이 하나도 없어. 모두 false인 경우
-            return -1;
+		if (start == -1)    // area에 소속된 구역이 하나도 없어. 모두 false인 경우
+			return -1;
 
-        int sum = 0;        // 인구 수
-        Queue<Integer> queue = new LinkedList<>();
+		int sum = 0;        // 인구 수
+		Queue<Integer> queue = new LinkedList<>();
 
-        sum += populations[start];
-        notVisited[start] = false;
-        queue.add(start);
+		sum += populations[start];
+		notVisited[start] = false;
+		queue.add(start);
 
-        // BFS
-        while (!queue.isEmpty()) {
-            int polled = queue.poll();
-            for (int ni : adjList[polled]) {    // 인접 리스트 활용
-                if (!notVisited[ni])
-                    continue;
+		// BFS
+		while (!queue.isEmpty()) {
+			int polled = queue.poll();
+			for (int ni : adjList[polled]) {    // 인접 리스트 활용
+				if (!notVisited[ni])
+					continue;
 
-                sum += populations[ni];
-                notVisited[ni] = false;
-                queue.add(ni);
-            }
-        }
+				sum += populations[ni];
+				notVisited[ni] = false;
+				queue.add(ni);
+			}
+		}
 
-        for (int i = 0; i < N; i++) {
-            if (notVisited[i]) {    // BFS 끝났는데 true인게 남아있어. 비연결
-                return -1;
-            }
-        }
+		for (int i = 0; i < N; i++) {
+			if (notVisited[i]) {    // BFS 끝났는데 true인게 남아있어. 비연결
+				return -1;
+			}
+		}
 
-        return sum;
-    }
+		return sum;
+	}
 }
 
 /*

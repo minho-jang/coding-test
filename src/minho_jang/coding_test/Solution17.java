@@ -13,105 +13,105 @@ package minho_jang.coding_test;
 import java.util.Stack;
 
 public class Solution17 {
-    public String solution(String p) {
-        String answer = "";
+	public String solution(String p) {
+		String answer = "";
 
-        if (hasPerfectBracket(p)) {
-            answer = p;
-        } else {
-            answer = correctBracket(p);
-        }
+		if (hasPerfectBracket(p)) {
+			answer = p;
+		} else {
+			answer = correctBracket(p);
+		}
 
-        return answer;
-    }
+		return answer;
+	}
 
-    String correctBracket(String w) {
-        if ("".equals(w)) {
-            return "";
-        }
+	String correctBracket(String w) {
+		if ("".equals(w)) {
+			return "";
+		}
 
-        StringBuffer u = new StringBuffer();
-        StringBuffer v = new StringBuffer();
+		StringBuffer u = new StringBuffer();
+		StringBuffer v = new StringBuffer();
 
-        // 균형잡힌 괄호 문자열 u
-        int count = 0;
-        int i = 0;
-        for (i = 0; i < w.length(); i++) {
-            char c = w.charAt(i);
-            if (i == 0) {
-                if (c == '(') {
-                    count += 1;
-                } else {
-                    count -= 1;
-                }
-                u.append(c);
-                continue;
-            } else {
-                if (c == '(') {
-                    count += 1;
-                } else {
-                    count -= 1;
-                }
-                u.append(c);
-            }
+		// 균형잡힌 괄호 문자열 u
+		int count = 0;
+		int i = 0;
+		for (i = 0; i < w.length(); i++) {
+			char c = w.charAt(i);
+			if (i == 0) {
+				if (c == '(') {
+					count += 1;
+				} else {
+					count -= 1;
+				}
+				u.append(c);
+				continue;
+			} else {
+				if (c == '(') {
+					count += 1;
+				} else {
+					count -= 1;
+				}
+				u.append(c);
+			}
 
-            if (count == 0) {
-                break;
-            }
-        }
-        // u를 제외한 문자열 v
-        v.append(w.substring(i + 1));
+			if (count == 0) {
+				break;
+			}
+		}
+		// u를 제외한 문자열 v
+		v.append(w.substring(i + 1));
 
-        System.out.println("u: " + u);
-        System.out.println("v: " + v);
+		System.out.println("u: " + u);
+		System.out.println("v: " + v);
 
-        if (hasPerfectBracket(u.toString())) {
-            String newV = correctBracket(v.toString());
-            u.append(newV);
-            return u.toString();
-        } else {
-            StringBuffer newBracket = new StringBuffer("(");
-            String newV = correctBracket(v.toString());
+		if (hasPerfectBracket(u.toString())) {
+			String newV = correctBracket(v.toString());
+			u.append(newV);
+			return u.toString();
+		} else {
+			StringBuffer newBracket = new StringBuffer("(");
+			String newV = correctBracket(v.toString());
 
-            newBracket.append(newV);
-            newBracket.append(")");
+			newBracket.append(newV);
+			newBracket.append(")");
 
-            String removedFirstLast = u.substring(1, u.length() - 1);
-            u = flipBracket(removedFirstLast);
+			String removedFirstLast = u.substring(1, u.length() - 1);
+			u = flipBracket(removedFirstLast);
 
-            newBracket.append(u);
-            return newBracket.toString();
-        }
-    }
+			newBracket.append(u);
+			return newBracket.toString();
+		}
+	}
 
-    boolean hasPerfectBracket(String w) {
-        try {
-            Stack<Character> stack = new Stack<>();
-            for (int i = 0; i < w.length(); i++) {
-                char c = w.charAt(i);
-                if (c == '(') {
-                    stack.push(c);
-                } else {
-                    stack.pop();
-                }
-            }
-            return stack.empty();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	boolean hasPerfectBracket(String w) {
+		try {
+			Stack<Character> stack = new Stack<>();
+			for (int i = 0; i < w.length(); i++) {
+				char c = w.charAt(i);
+				if (c == '(') {
+					stack.push(c);
+				} else {
+					stack.pop();
+				}
+			}
+			return stack.empty();
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-    StringBuffer flipBracket(String w) {
-        StringBuffer flipped = new StringBuffer();
-        for (int i = 0; i < w.length(); i++) {
-            char c = w.charAt(i);
-            if (c == '(') {
-                flipped.append(')');
-            } else {
-                flipped.append('(');
-            }
-        }
+	StringBuffer flipBracket(String w) {
+		StringBuffer flipped = new StringBuffer();
+		for (int i = 0; i < w.length(); i++) {
+			char c = w.charAt(i);
+			if (c == '(') {
+				flipped.append(')');
+			} else {
+				flipped.append('(');
+			}
+		}
 
-        return flipped;
-    }
+		return flipped;
+	}
 }

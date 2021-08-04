@@ -7,78 +7,77 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_1520_내리막길 {
-    static int[] dr = {-1, 1, 0, 0};
-    static int[] dc = {0, 0, -1, 1};
+	static int[] dr = {-1, 1, 0, 0};
+	static int[] dc = {0, 0, -1, 1};
+	static Pos start, end;
+	static int[][] map, dp;
+	static int R, C;
 
-    static class Pos {
-        int r, c;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-        public Pos(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
+		stk = new StringTokenizer(br.readLine());
+		R = Integer.parseInt(stk.nextToken());
+		C = Integer.parseInt(stk.nextToken());
+		map = new int[R][C];
+		for (int i = 0; i < R; i++) {
+			stk = new StringTokenizer(br.readLine());
+			for (int j = 0; j < C; j++) {
+				map[i][j] = Integer.parseInt(stk.nextToken());
+			}
+		}
 
-        @Override
-        public String toString() {
-            return "Pos [r=" + r + ", c=" + c + "]";
-        }
-    }
+		start = new Pos(0, 0);
+		end = new Pos(R - 1, C - 1);
+		dp = new int[R][C];
+		for (int i = 0; i < R; i++)
+			Arrays.fill(dp[i], -1);
 
-    static Pos start, end;
-    static int[][] map, dp;
-    static int R, C;
+		int answer = dfs(start);
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+		for (int i = 0; i < R; i++)
+			System.out.println(Arrays.toString(dp[i]));
 
-        stk = new StringTokenizer(br.readLine());
-        R = Integer.parseInt(stk.nextToken());
-        C = Integer.parseInt(stk.nextToken());
-        map = new int[R][C];
-        for (int i = 0; i < R; i++) {
-            stk = new StringTokenizer(br.readLine());
-            for (int j = 0; j < C; j++) {
-                map[i][j] = Integer.parseInt(stk.nextToken());
-            }
-        }
+		System.out.println(answer);
+	}
 
-        start = new Pos(0, 0);
-        end = new Pos(R - 1, C - 1);
-        dp = new int[R][C];
-        for (int i = 0; i < R; i++)
-            Arrays.fill(dp[i], -1);
+	private static int dfs(Pos here) {
+		if (here.r == end.r && here.c == end.c)
+			return 1;
 
-        int answer = dfs(start);
+		int result = 0;
+		for (int d = 0; d < 4; d++) {
+			int nr = here.r + dr[d];
+			int nc = here.c + dc[d];
 
-        for (int i = 0; i < R; i++)
-            System.out.println(Arrays.toString(dp[i]));
+			if (nr < 0 || nr >= R || nc < 0 || nc >= C)
+				continue;
+			if (map[here.r][here.c] <= map[nr][nc])
+				continue;
 
-        System.out.println(answer);
-    }
+			if (dp[nr][nc] < 0)
+				result += dfs(new Pos(nr, nc));
+			else
+				result += dp[nr][nc];
+		}
 
-    private static int dfs(Pos here) {
-        if (here.r == end.r && here.c == end.c)
-            return 1;
+		return dp[here.r][here.c] = result;
+	}
 
-        int result = 0;
-        for (int d = 0; d < 4; d++) {
-            int nr = here.r + dr[d];
-            int nc = here.c + dc[d];
+	static class Pos {
+		int r, c;
 
-            if (nr < 0 || nr >= R || nc < 0 || nc >= C)
-                continue;
-            if (map[here.r][here.c] <= map[nr][nc])
-                continue;
+		public Pos(int r, int c) {
+			this.r = r;
+			this.c = c;
+		}
 
-            if (dp[nr][nc] < 0)
-                result += dfs(new Pos(nr, nc));
-            else
-                result += dp[nr][nc];
-        }
-
-        return dp[here.r][here.c] = result;
-    }
+		@Override
+		public String toString() {
+			return "Pos [r=" + r + ", c=" + c + "]";
+		}
+	}
 }
 
 

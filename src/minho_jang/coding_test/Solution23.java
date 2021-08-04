@@ -17,34 +17,34 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Solution23 {
-    public String solution(int[] numbers) {
-        StringBuffer answer = new StringBuffer();
+	public String solution(int[] numbers) {
+		StringBuffer answer = new StringBuffer();
 
-        ArrayList<String> numberStringList = new ArrayList<>();
-        for (int i : numbers) {
-            numberStringList.add(Integer.toString(i));
-        }
+		ArrayList<String> numberStringList = new ArrayList<>();
+		for (int i : numbers) {
+			numberStringList.add(Integer.toString(i));
+		}
 
-        // Collections.sort(numberStringList, Collections.reverseOrder());
-        Collections.sort(numberStringList, new Comparator<String>() {
-            @Override
-            public int compare(String a, String b) {
-                if (a.length() < b.length()) {
-                    return 1;
-                } else if (a.length() > b.length()) {
-                    return -1;
-                } else {
-                    return a.compareTo(b);
-                }
-            }
-        });
+		// Collections.sort(numberStringList, Collections.reverseOrder());
+		Collections.sort(numberStringList, new Comparator<String>() {
+			@Override
+			public int compare(String a, String b) {
+				if (a.length() < b.length()) {
+					return 1;
+				} else if (a.length() > b.length()) {
+					return -1;
+				} else {
+					return a.compareTo(b);
+				}
+			}
+		});
 
-        for (int i = numberStringList.size() - 1; i >= 0; i--) {
-            String s = numberStringList.get(i);
-            answer.append(s);
-            System.out.println(s);
-        }
+		for (int i = numberStringList.size() - 1; i >= 0; i--) {
+			String s = numberStringList.get(i);
+			answer.append(s);
+			System.out.println(s);
+		}
 
-        return answer.toString();
-    }
+		return answer.toString();
+	}
 }

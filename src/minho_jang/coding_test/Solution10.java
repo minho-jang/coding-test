@@ -11,14 +11,14 @@ package minho_jang.coding_test;
  * @author minho
  */
 public class Solution10 {
-    public int solution(int[] a, int[] b) {
-        int answer = 0;
+	public int solution(int[] a, int[] b) {
+		int answer = 0;
 
-        int length = a.length;
-        for (int i = 0; i < length; i++) {
-            answer += a[i] * b[i];
-        }
+		int length = a.length;
+		for (int i = 0; i < length; i++) {
+			answer += a[i] * b[i];
+		}
 
-        return answer;
-    }
+		return answer;
+	}
 }

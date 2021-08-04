@@ -14,23 +14,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Solution7 {
-    public String solution(String s) {
-        String answer = "";
+	public String solution(String s) {
+		String answer = "";
 
-        ArrayList<Integer> charArrlst = new ArrayList<>();
-        for (int i = 0; i < s.length(); i++) {
-            int charToInt = s.charAt(i);
-            charArrlst.add(charToInt);
-        }
+		ArrayList<Integer> charArrlst = new ArrayList<>();
+		for (int i = 0; i < s.length(); i++) {
+			int charToInt = s.charAt(i);
+			charArrlst.add(charToInt);
+		}
 
-        Collections.sort(charArrlst, Collections.reverseOrder());
-        StringBuffer sb = new StringBuffer();
-        for (int i : charArrlst) {
-            char c = (char) i;
-            sb.append(c);
-        }
+		Collections.sort(charArrlst, Collections.reverseOrder());
+		StringBuffer sb = new StringBuffer();
+		for (int i : charArrlst) {
+			char c = (char) i;
+			sb.append(c);
+		}
 
-        answer = sb.toString();
-        return answer;
-    }
+		answer = sb.toString();
+		return answer;
+	}
 }

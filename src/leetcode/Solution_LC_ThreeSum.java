@@ -1,49 +1,51 @@
 package leetcode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class Solution_LC_ThreeSum {
-    public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> answer = new ArrayList<>();
+	public static void main(String[] args) {
+		Solution_LC_ThreeSum sol = new Solution_LC_ThreeSum();
+		int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
+		System.out.println(sol.threeSum(nums));
+	}
 
-        Arrays.sort(nums);
+	public List<List<Integer>> threeSum(int[] nums) {
+		List<List<Integer>> answer = new ArrayList<>();
 
-        int prev = Integer.MIN_VALUE;
-        for (int i = 0; i < nums.length; i++) {
-            int num = nums[i];
-            if (num <= prev)
-                continue;
+		Arrays.sort(nums);
 
-            int target = num * (-1);
-            int left = i + 1;
-            int right = nums.length - 1;
+		int prev = Integer.MIN_VALUE;
+		for (int i = 0; i < nums.length; i++) {
+			int num = nums[i];
+			if (num <= prev)
+				continue;
 
-            while (left < right) {
-                if (nums[left] + nums[right] > target)
-                    right--;
-                else if (nums[left] + nums[right] < target)
-                    left++;
-                else {
-                    ArrayList<Integer> candidate = new ArrayList<>();
-                    candidate.add(nums[i]);
-                    candidate.add(nums[left]);
-                    candidate.add(nums[right]);
+			int target = num * (-1);
+			int left = i + 1;
+			int right = nums.length - 1;
 
-                    answer.add(candidate);
-                    while (left < nums.length - 1 && nums[left] == nums[++left]) ;
-                    while (right > 0 && nums[right] == nums[--right]) ;
-                }
-            }
+			while (left < right) {
+				if (nums[left] + nums[right] > target)
+					right--;
+				else if (nums[left] + nums[right] < target)
+					left++;
+				else {
+					ArrayList<Integer> candidate = new ArrayList<>();
+					candidate.add(nums[i]);
+					candidate.add(nums[left]);
+					candidate.add(nums[right]);
 
-            prev = nums[i];
-        }
+					answer.add(candidate);
+					while (left < nums.length - 1 && nums[left] == nums[++left]) ;
+					while (right > 0 && nums[right] == nums[--right]) ;
+				}
+			}
 
-        return answer;
-    }
+			prev = nums[i];
+		}
 
-    public static void main(String[] args) {
-        Solution_LC_ThreeSum sol = new Solution_LC_ThreeSum();
-        int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
-        System.out.println(sol.threeSum(nums));
-    }
+		return answer;
+	}
 }

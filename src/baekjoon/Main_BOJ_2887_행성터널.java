@@ -8,100 +8,100 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_2887_행성터널 {
-    static class Edge {
-        int from, to, distance;
+	private static int[] parent;
 
-        Edge(int from, int to, int distance) {
-            this.from = from;
-            this.to = to;
-            this.distance = distance;
-        }
-    }
+	public static void main(String[] args) throws Exception {
+		System.setIn(new FileInputStream("input.txt"));
 
-    static class Node {
-        int idx;
-        int x, y, z;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-        Node(int idx, int x, int y, int z) {
-            this.idx = idx;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
+		int N = Integer.parseInt(br.readLine());
 
-    public static void main(String[] args) throws Exception {
-        System.setIn(new FileInputStream("input.txt"));
+		Node[] nodes = new Node[N];
+		for (int i = 0; i < N; i++) {
+			stk = new StringTokenizer(br.readLine());
+			int x = Integer.parseInt(stk.nextToken());
+			int y = Integer.parseInt(stk.nextToken());
+			int z = Integer.parseInt(stk.nextToken());
+			nodes[i] = new Node(i, x, y, z);
+		}
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+		PriorityQueue<Edge> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.distance, o2.distance));
+		// x좌표 정렬
+		Arrays.sort(nodes, (o1, o2) -> Integer.compare(o1.x, o2.x));
+		for (int i = 1; i < N; i++) {
+			pq.add(new Edge(nodes[i].idx, nodes[i - 1].idx, nodes[i].x - nodes[i - 1].x));
+		}
+		// y좌표 정렬
+		Arrays.sort(nodes, (o1, o2) -> Integer.compare(o1.y, o2.y));
+		for (int i = 1; i < N; i++) {
+			pq.add(new Edge(nodes[i].idx, nodes[i - 1].idx, nodes[i].y - nodes[i - 1].y));
+		}
+		// z좌표 정렬
+		Arrays.sort(nodes, (o1, o2) -> Integer.compare(o1.z, o2.z));
+		for (int i = 1; i < N; i++) {
+			pq.add(new Edge(nodes[i].idx, nodes[i - 1].idx, nodes[i].z - nodes[i - 1].z));
+		}
 
-        int N = Integer.parseInt(br.readLine());
+		// Kruskal
+		init(N);
+		int count = 0;
+		int cost = 0;
+		while (!pq.isEmpty()) {
+			if (count >= N - 1) break;
 
-        Node[] nodes = new Node[N];
-        for (int i = 0; i < N; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(stk.nextToken());
-            int y = Integer.parseInt(stk.nextToken());
-            int z = Integer.parseInt(stk.nextToken());
-            nodes[i] = new Node(i, x, y, z);
-        }
+			Edge e = pq.poll();
+			if (union(e.from, e.to)) {
+				cost += e.distance;
+				count++;
+			}
+		}
+		System.out.println(cost);
+	}
 
-        PriorityQueue<Edge> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.distance, o2.distance));
-        // x좌표 정렬
-        Arrays.sort(nodes, (o1, o2) -> Integer.compare(o1.x, o2.x));
-        for (int i = 1; i < N; i++) {
-            pq.add(new Edge(nodes[i].idx, nodes[i - 1].idx, nodes[i].x - nodes[i - 1].x));
-        }
-        // y좌표 정렬
-        Arrays.sort(nodes, (o1, o2) -> Integer.compare(o1.y, o2.y));
-        for (int i = 1; i < N; i++) {
-            pq.add(new Edge(nodes[i].idx, nodes[i - 1].idx, nodes[i].y - nodes[i - 1].y));
-        }
-        // z좌표 정렬
-        Arrays.sort(nodes, (o1, o2) -> Integer.compare(o1.z, o2.z));
-        for (int i = 1; i < N; i++) {
-            pq.add(new Edge(nodes[i].idx, nodes[i - 1].idx, nodes[i].z - nodes[i - 1].z));
-        }
+	private static void init(int N) {
+		parent = new int[N];
+		for (int i = 0; i < N; i++)
+			parent[i] = i;
+	}
 
-        // Kruskal
-        init(N);
-        int count = 0;
-        int cost = 0;
-        while (!pq.isEmpty()) {
-            if (count >= N - 1) break;
+	private static boolean union(int a, int b) {
+		int pa = find(a);
+		int pb = find(b);
+		if (pa != pb) {
+			parent[pb] = pa;
+			return true;
+		}
+		return false;
+	}
 
-            Edge e = pq.poll();
-            if (union(e.from, e.to)) {
-                cost += e.distance;
-                count++;
-            }
-        }
-        System.out.println(cost);
-    }
+	private static int find(int a) {
+		if (parent[a] == a)
+			return a;
+		else
+			return parent[a] = find(parent[a]);
+	}
 
-    private static int[] parent;
+	static class Edge {
+		int from, to, distance;
 
-    private static void init(int N) {
-        parent = new int[N];
-        for (int i = 0; i < N; i++)
-            parent[i] = i;
-    }
+		Edge(int from, int to, int distance) {
+			this.from = from;
+			this.to = to;
+			this.distance = distance;
+		}
+	}
 
-    private static boolean union(int a, int b) {
-        int pa = find(a);
-        int pb = find(b);
-        if (pa != pb) {
-            parent[pb] = pa;
-            return true;
-        }
-        return false;
-    }
+	static class Node {
+		int idx;
+		int x, y, z;
 
-    private static int find(int a) {
-        if (parent[a] == a)
-            return a;
-        else
-            return parent[a] = find(parent[a]);
-    }
+		Node(int idx, int x, int y, int z) {
+			this.idx = idx;
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+	}
 }

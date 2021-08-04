@@ -4,68 +4,68 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Solution_PRG_순위 {
-    boolean[][] visited;
+	boolean[][] visited;
 
-    public int solution(int n, int[][] results) {
-        int answer = 0;
+	public static void main(String[] args) {
+		Solution_PRG_순위 sol = new Solution_PRG_순위();
+		int n = 5;
+		int[][] results = {
+				{4, 3},
+				{4, 2},
+				{3, 2},
+				{1, 2},
+				{2, 5}
+		};
+		System.out.println(sol.solution(n, results));
+	}
 
-        int[][] adjMatrix = new int[n][n];
+	public int solution(int n, int[][] results) {
+		int answer = 0;
 
-        for (int[] result : results) {
-            adjMatrix[result[0] - 1][result[1] - 1] = 1;
-        }
+		int[][] adjMatrix = new int[n][n];
 
-        visited = new boolean[n][n];
-        bfs(adjMatrix, n);
+		for (int[] result : results) {
+			adjMatrix[result[0] - 1][result[1] - 1] = 1;
+		}
 
-        for (int i = 0; i < n; i++) {
-            boolean hit = true;
-            for (int j = 0; j < n; j++) {
-                if (!visited[i][j] && !visited[j][i])
-                    hit = false;
-            }
-            if (hit) answer++;
-        }
+		visited = new boolean[n][n];
+		bfs(adjMatrix, n);
 
-        return answer;
-    }
+		for (int i = 0; i < n; i++) {
+			boolean hit = true;
+			for (int j = 0; j < n; j++) {
+				if (!visited[i][j] && !visited[j][i])
+					hit = false;
+			}
+			if (hit) answer++;
+		}
 
-    private void bfs(int[][] adjMatrix, int n) {
-        for (int i = 0; i < n; i++) {
+		return answer;
+	}
 
-            boolean[] visitedTmp = new boolean[n];
-            Queue<Integer> queue = new LinkedList<>();
+	private void bfs(int[][] adjMatrix, int n) {
+		for (int i = 0; i < n; i++) {
 
-            visitedTmp[i] = true;
-            queue.add(i);
+			boolean[] visitedTmp = new boolean[n];
+			Queue<Integer> queue = new LinkedList<>();
 
-            while (!queue.isEmpty()) {
-                int polled = queue.poll();
-                for (int j = 0; j < n; j++) {
-                    if (!visitedTmp[j] && adjMatrix[polled][j] > 0) {
-                        visitedTmp[j] = true;
-                        queue.add(j);
-                    }
-                }
-            }
+			visitedTmp[i] = true;
+			queue.add(i);
 
-            for (int j = 0; j < n; j++)
-                if (visitedTmp[j])
-                    visited[i][j] = true;
+			while (!queue.isEmpty()) {
+				int polled = queue.poll();
+				for (int j = 0; j < n; j++) {
+					if (!visitedTmp[j] && adjMatrix[polled][j] > 0) {
+						visitedTmp[j] = true;
+						queue.add(j);
+					}
+				}
+			}
 
-        }
-    }
+			for (int j = 0; j < n; j++)
+				if (visitedTmp[j])
+					visited[i][j] = true;
 
-    public static void main(String[] args) {
-        Solution_PRG_순위 sol = new Solution_PRG_순위();
-        int n = 5;
-        int[][] results = {
-                {4, 3},
-                {4, 2},
-                {3, 2},
-                {1, 2},
-                {2, 5}
-        };
-        System.out.println(sol.solution(n, results));
-    }
+		}
+	}
 }

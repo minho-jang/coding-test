@@ -12,11 +12,11 @@ package minho_jang.coding_test;
  */
 //import java.util.*;
 public class SolutionSample {
-    public String solution(String s) {
-        String answer = "";
+	public String solution(String s) {
+		String answer = "";
 
-        // [풀이]
+		// [풀이]
 
-        return answer;
-    }
+		return answer;
+	}
 }

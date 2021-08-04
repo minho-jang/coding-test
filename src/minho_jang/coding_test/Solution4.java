@@ -13,22 +13,22 @@ package minho_jang.coding_test;
 import java.util.ArrayList;
 
 public class Solution4 {
-    public int[] solution(int[] arr) {
-        int[] answer = {};
+	public int[] solution(int[] arr) {
+		int[] answer = {};
 
-        ArrayList<Integer> arrlst = new ArrayList<>();
-        arrlst.add(arr[0]);
-        for (int i = 1; i < arr.length; i++) {
-            if (arrlst.get(arrlst.size() - 1) != arr[i]) {
-                arrlst.add(arr[i]);
-            }
-        }
+		ArrayList<Integer> arrlst = new ArrayList<>();
+		arrlst.add(arr[0]);
+		for (int i = 1; i < arr.length; i++) {
+			if (arrlst.get(arrlst.size() - 1) != arr[i]) {
+				arrlst.add(arr[i]);
+			}
+		}
 
-        answer = new int[arrlst.size()];
-        for (int i = 0; i < arrlst.size(); i++) {
-            answer[i] = arrlst.get(i);
-        }
+		answer = new int[arrlst.size()];
+		for (int i = 0; i < arrlst.size(); i++) {
+			answer[i] = arrlst.get(i);
+		}
 
-        return answer;
-    }
+		return answer;
+	}
 }

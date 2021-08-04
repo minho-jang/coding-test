@@ -5,81 +5,81 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_14888_연산자끼워넣기 {
-    static int N, min, max;
-    static int[] operators, arr;
+	static int N, min, max;
+	static int[] operators, arr;
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-        min = Integer.MAX_VALUE;
-        max = Integer.MIN_VALUE;
-        N = Integer.parseInt(br.readLine());
+		min = Integer.MAX_VALUE;
+		max = Integer.MIN_VALUE;
+		N = Integer.parseInt(br.readLine());
 
-        stk = new StringTokenizer(br.readLine());
-        arr = new int[N];
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(stk.nextToken());
-        }
+		stk = new StringTokenizer(br.readLine());
+		arr = new int[N];
+		for (int i = 0; i < N; i++) {
+			arr[i] = Integer.parseInt(stk.nextToken());
+		}
 
-        stk = new StringTokenizer(br.readLine());
-        operators = new int[N - 1];
-        int idx = 0;
-        for (int i = 0; i < 4; i++) {
-            int operatorCount = Integer.parseInt(stk.nextToken());
-            for (int j = 0; j < operatorCount; j++)
-                operators[idx++] = i;
-        }
+		stk = new StringTokenizer(br.readLine());
+		operators = new int[N - 1];
+		int idx = 0;
+		for (int i = 0; i < 4; i++) {
+			int operatorCount = Integer.parseInt(stk.nextToken());
+			for (int j = 0; j < operatorCount; j++)
+				operators[idx++] = i;
+		}
 
-        perm(0, new boolean[N - 1], new int[N - 1]);
+		perm(0, new boolean[N - 1], new int[N - 1]);
 
-        System.out.println(max);
-        System.out.println(min);
-    }
+		System.out.println(max);
+		System.out.println(min);
+	}
 
-    static void perm(int cnt, boolean[] visited, int[] res) {
-        if (cnt == N - 1) {
-            calc(res);
-            return;
-        }
+	static void perm(int cnt, boolean[] visited, int[] res) {
+		if (cnt == N - 1) {
+			calc(res);
+			return;
+		}
 
-        for (int i = 0; i < N - 1; i++) {
-            if (visited[i])
-                continue;
-            visited[i] = true;
-            res[cnt] = operators[i];
-            perm(cnt + 1, visited, res);
-            visited[i] = false;
-        }
-    }
+		for (int i = 0; i < N - 1; i++) {
+			if (visited[i])
+				continue;
+			visited[i] = true;
+			res[cnt] = operators[i];
+			perm(cnt + 1, visited, res);
+			visited[i] = false;
+		}
+	}
 
-    static void calc(int[] oper) {
-        int result = arr[0];
-        for (int i = 0; i < N - 1; i++) {
-            int o = oper[i];
-            result = calc(result, o, arr[i + 1]);
-        }
+	static void calc(int[] oper) {
+		int result = arr[0];
+		for (int i = 0; i < N - 1; i++) {
+			int o = oper[i];
+			result = calc(result, o, arr[i + 1]);
+		}
 
-        if (min > result)
-            min = result;
-        if (max < result)
-            max = result;
-    }
+		if (min > result)
+			min = result;
+		if (max < result)
+			max = result;
+	}
 
-    static int calc(int o1, int o, int o2) {
-        if (o == 0)
-            return o1 + o2;
-        else if (o == 1)
-            return o1 - o2;
-        else if (o == 2)
-            return o1 * o2;
-        else if (o == 3)
-            return o1 / o2;
-        else {
-            System.out.println("ERROR");
-            return -1;
-        }
-    }
+	static int calc(int o1, int o, int o2) {
+		if (o == 0)
+			return o1 + o2;
+		else if (o == 1)
+			return o1 - o2;
+		else if (o == 2)
+			return o1 * o2;
+		else if (o == 3)
+			return o1 / o2;
+		else {
+			System.out.println("ERROR");
+			return -1;
+		}
+	}
 }
 
 //public class Main_BOJ_14888_연산자끼워넣기 {

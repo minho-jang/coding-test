@@ -3,93 +3,93 @@ package programmers;
 import java.util.*;
 
 public class Solution_PRG_베스트앨범 {
-    class Genre {
-        String genre;
-        int sum;
+	public static void main(String[] args) {
+		Solution_PRG_베스트앨범 sol = new Solution_PRG_베스트앨범();
+		String[] genres = {"classic", "pop", "classic", "classic", "pop"};
+		int[] plays = {500, 600, 150, 800, 2500};
+		System.out.println(Arrays.toString(sol.solution(genres, plays)));
+	}
 
-        Genre(String genre, int sum) {
-            this.genre = genre;
-            this.sum = sum;
-        }
-    }
+	public int[] solution(String[] genres, int[] plays) {
+		List<Genre> genreList = new ArrayList<>();
+		HashMap<String, Node> map = new HashMap<>();
+		int N = plays.length;
 
-    class Music {
-        int idx, plays;
+		for (int i = 0; i < N; i++) {
+			if (map.containsKey(genres[i])) {
+				Node hit = map.get(genres[i]);
+				hit.playlist.add(new Music(i, plays[i]));
+				genreList.get(hit.idx).sum += plays[i];
 
-        Music(int idx, int plays) {
-            this.idx = idx;
-            this.plays = plays;
-        }
-    }
+			} else {
+				Genre genre = new Genre(genres[i], 0);
+				genreList.add(genre);
+				int genreIdx = genreList.size() - 1;
 
-    class Node {
-        List<Music> playlist;
-        int idx;
+				Node newNode = new Node(genreIdx);
+				newNode.playlist.add(new Music(i, plays[i]));
 
-        Node(int idx) {
-            this.idx = idx;
-            this.playlist = new ArrayList<>();
-        }
+				genre.sum += plays[i];
 
-        int[] getTopTwoMusic() {
-            if (playlist.size() >= 2) {
-                Collections.sort(playlist, (o1, o2) -> Integer.compare(o1.plays, o2.plays) * (-1));
-                return new int[]{playlist.get(0).idx, playlist.get(1).idx};
+				map.put(genres[i], newNode);
+			}
+		}
 
-            } else if (playlist.size() == 1) {
-                return new int[]{playlist.get(0).idx};
+		ArrayList<Integer> answerList = new ArrayList<>();
+		Collections.sort(genreList, (o1, o2) -> Integer.compare(o1.sum, o2.sum) * (-1));
+		for (Genre genre : genreList) {
+			int[] result = map.get(genre.genre).getTopTwoMusic();
+			if (result != null) {
+				for (int r : result)
+					answerList.add(r);
+			}
+		}
 
-            } else {
-                return null;
-            }
-        }
-    }
+		int[] answer = new int[answerList.size()];
+		for (int i = 0; i < answer.length; i++)
+			answer[i] = answerList.get(i);
+		return answer;
+	}
 
-    public int[] solution(String[] genres, int[] plays) {
-        List<Genre> genreList = new ArrayList<>();
-        HashMap<String, Node> map = new HashMap<>();
-        int N = plays.length;
+	class Genre {
+		String genre;
+		int sum;
 
-        for (int i = 0; i < N; i++) {
-            if (map.containsKey(genres[i])) {
-                Node hit = map.get(genres[i]);
-                hit.playlist.add(new Music(i, plays[i]));
-                genreList.get(hit.idx).sum += plays[i];
+		Genre(String genre, int sum) {
+			this.genre = genre;
+			this.sum = sum;
+		}
+	}
 
-            } else {
-                Genre genre = new Genre(genres[i], 0);
-                genreList.add(genre);
-                int genreIdx = genreList.size() - 1;
+	class Music {
+		int idx, plays;
 
-                Node newNode = new Node(genreIdx);
-                newNode.playlist.add(new Music(i, plays[i]));
+		Music(int idx, int plays) {
+			this.idx = idx;
+			this.plays = plays;
+		}
+	}
 
-                genre.sum += plays[i];
+	class Node {
+		List<Music> playlist;
+		int idx;
 
-                map.put(genres[i], newNode);
-            }
-        }
+		Node(int idx) {
+			this.idx = idx;
+			this.playlist = new ArrayList<>();
+		}
 
-        ArrayList<Integer> answerList = new ArrayList<>();
-        Collections.sort(genreList, (o1, o2) -> Integer.compare(o1.sum, o2.sum) * (-1));
-        for (Genre genre : genreList) {
-            int[] result = map.get(genre.genre).getTopTwoMusic();
-            if (result != null) {
-                for (int r : result)
-                    answerList.add(r);
-            }
-        }
+		int[] getTopTwoMusic() {
+			if (playlist.size() >= 2) {
+				Collections.sort(playlist, (o1, o2) -> Integer.compare(o1.plays, o2.plays) * (-1));
+				return new int[]{playlist.get(0).idx, playlist.get(1).idx};
 
-        int[] answer = new int[answerList.size()];
-        for (int i = 0; i < answer.length; i++)
-            answer[i] = answerList.get(i);
-        return answer;
-    }
+			} else if (playlist.size() == 1) {
+				return new int[]{playlist.get(0).idx};
 
-    public static void main(String[] args) {
-        Solution_PRG_베스트앨범 sol = new Solution_PRG_베스트앨범();
-        String[] genres = {"classic", "pop", "classic", "classic", "pop"};
-        int[] plays = {500, 600, 150, 800, 2500};
-        System.out.println(Arrays.toString(sol.solution(genres, plays)));
-    }
+			} else {
+				return null;
+			}
+		}
+	}
 }

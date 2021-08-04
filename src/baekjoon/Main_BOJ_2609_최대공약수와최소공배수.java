@@ -3,33 +3,33 @@ package baekjoon;
 import java.util.Scanner;
 
 public class Main_BOJ_2609_최대공약수와최소공배수 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int M = sc.nextInt();
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		int M = sc.nextInt();
 
-        // 최대공약수
-        int gcm = 0;
-        int lg = Math.max(N, M);
-        int sm = Math.min(N, M);
-        while (true) {
-            int R = lg % sm;
-            if (R == 0) {
-                gcm = sm;
-                break;
-            } else {
-                lg = sm;
-                sm = R;
-            }
-        }
-        System.out.println(gcm);
+		// 최대공약수
+		int gcm = 0;
+		int lg = Math.max(N, M);
+		int sm = Math.min(N, M);
+		while (true) {
+			int R = lg % sm;
+			if (R == 0) {
+				gcm = sm;
+				break;
+			} else {
+				lg = sm;
+				sm = R;
+			}
+		}
+		System.out.println(gcm);
 
-        // 최소공배수
-        int lcm = N * M / gcm;
-        System.out.println(lcm);
+		// 최소공배수
+		int lcm = N * M / gcm;
+		System.out.println(lcm);
 
-        sc.close();
-    }
+		sc.close();
+	}
 }
 
 /*

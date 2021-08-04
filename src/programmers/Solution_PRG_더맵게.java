@@ -3,37 +3,37 @@ package programmers;
 import java.util.PriorityQueue;
 
 public class Solution_PRG_더맵게 {
-    public int solution(int[] scoville, int K) {
-        int answer = 0;
+	public static void main(String[] args) {
+		Solution_PRG_더맵게 sol = new Solution_PRG_더맵게();
+		int[] scoville = {1, 2, 3, 9, 10, 12};
+		int K = 7;
+		System.out.println(sol.solution(scoville, K));
+	}
 
-        PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2) -> Integer.compare(o1, o2));
-        for (int scv : scoville)
-            queue.add(scv);
+	public int solution(int[] scoville, int K) {
+		int answer = 0;
 
-        int count = 0;
-        while (true) {
-            int polled = queue.poll();
-            if (polled >= K)
-                break;
+		PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2) -> Integer.compare(o1, o2));
+		for (int scv : scoville)
+			queue.add(scv);
 
-            if (queue.isEmpty()) {
-                count = -1;
-                break;
-            }
+		int count = 0;
+		while (true) {
+			int polled = queue.poll();
+			if (polled >= K)
+				break;
 
-            int polledSecond = queue.poll();
-            queue.add(polled + (polledSecond * 2));
-            count++;
-        }
+			if (queue.isEmpty()) {
+				count = -1;
+				break;
+			}
 
-        answer = count;
-        return answer;
-    }
+			int polledSecond = queue.poll();
+			queue.add(polled + (polledSecond * 2));
+			count++;
+		}
 
-    public static void main(String[] args) {
-        Solution_PRG_더맵게 sol = new Solution_PRG_더맵게();
-        int[] scoville = {1, 2, 3, 9, 10, 12};
-        int K = 7;
-        System.out.println(sol.solution(scoville, K));
-    }
+		answer = count;
+		return answer;
+	}
 }

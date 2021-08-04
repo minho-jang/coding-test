@@ -3,36 +3,36 @@ package programmers;
 import java.util.Arrays;
 
 public class Solution_PRG_입국심사 {
-    public long solution(int n, int[] times) {
-        long answer = 0;
+	public static void main(String[] args) {
+		Solution_PRG_입국심사 sol = new Solution_PRG_입국심사();
 
-        Arrays.sort(times);
+		int n = 6;
+		int[] times = {7, 10};
+		System.out.println(sol.solution(n, times));
+	}
 
-        long min = 1;
-        long max = (long) times[times.length - 1] * n;
+	public long solution(int n, int[] times) {
+		long answer = 0;
 
-        while (max - min >= 0) {
-            long mid = (min + max) / 2;
+		Arrays.sort(times);
 
-            long sum = 0;
-            for (int time : times)
-                sum += (mid / time);
+		long min = 1;
+		long max = (long) times[times.length - 1] * n;
 
-            if (sum >= n) {
-                answer = mid;
-                max = mid - 1;
-            } else
-                min = mid + 1;
-        }
+		while (max - min >= 0) {
+			long mid = (min + max) / 2;
 
-        return answer;
-    }
+			long sum = 0;
+			for (int time : times)
+				sum += (mid / time);
 
-    public static void main(String[] args) {
-        Solution_PRG_입국심사 sol = new Solution_PRG_입국심사();
+			if (sum >= n) {
+				answer = mid;
+				max = mid - 1;
+			} else
+				min = mid + 1;
+		}
 
-        int n = 6;
-        int[] times = {7, 10};
-        System.out.println(sol.solution(n, times));
-    }
+		return answer;
+	}
 }

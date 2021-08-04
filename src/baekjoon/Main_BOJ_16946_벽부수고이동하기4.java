@@ -8,114 +8,114 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_16946_벽부수고이동하기4 {
-    static class Node {
-        int r, c;
+	static int[] dr = {-1, 1, 0, 0};
+	static int[] dc = {0, 0, -1, 1};
+	static char[][] map;
+	static int[][] mapNumbering;
+	static int N, M;
+	static ArrayList<Integer> areaMemo;
 
-        Node(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-    static int[] dr = {-1, 1, 0, 0};
-    static int[] dc = {0, 0, -1, 1};
-    static char[][] map;
-    static int[][] mapNumbering;
-    static int N, M;
-    static ArrayList<Integer> areaMemo;
+		stk = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(stk.nextToken());
+		M = Integer.parseInt(stk.nextToken());
+		map = new char[N][M];
+		mapNumbering = new int[N][M];
+		for (int i = 0; i < N; i++) {
+			map[i] = br.readLine().toCharArray();
+		}
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+		areaMemo = new ArrayList<>();
+		int idx = 1;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (map[i][j] == '0') {
+					int result = bfs(new Node(i, j), idx);
+					areaMemo.add(result);
+					idx++;
+				}
+			}
+		}
 
-        stk = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(stk.nextToken());
-        M = Integer.parseInt(stk.nextToken());
-        map = new char[N][M];
-        mapNumbering = new int[N][M];
-        for (int i = 0; i < N; i++) {
-            map[i] = br.readLine().toCharArray();
-        }
+		int[][] answer = new int[N][M];
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (mapNumbering[i][j] == 0) {
+					answer[i][j] = addFourDirection(i, j) % 10;
+				}
+			}
+		}
 
-        areaMemo = new ArrayList<>();
-        int idx = 1;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (map[i][j] == '0') {
-                    int result = bfs(new Node(i, j), idx);
-                    areaMemo.add(result);
-                    idx++;
-                }
-            }
-        }
+		StringBuilder answerSb = new StringBuilder();
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				answerSb.append(answer[i][j]);
+			}
+			answerSb.append("\n");
+		}
 
-        int[][] answer = new int[N][M];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (mapNumbering[i][j] == 0) {
-                    answer[i][j] = addFourDirection(i, j) % 10;
-                }
-            }
-        }
+		System.out.print(answerSb.toString());
+	}
 
-        StringBuilder answerSb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                answerSb.append(answer[i][j]);
-            }
-            answerSb.append("\n");
-        }
+	private static int addFourDirection(int r, int c) {
+		int result = 1;
 
-        System.out.print(answerSb.toString());
-    }
+		boolean[] visited = new boolean[areaMemo.size()];
+		for (int d = 0; d < 4; d++) {
+			int nr = r + dr[d];
+			int nc = c + dc[d];
+			if (isOut(nr, nc)) continue;
 
-    private static int addFourDirection(int r, int c) {
-        int result = 1;
+			int areaNum = mapNumbering[nr][nc] - 1;
+			if (areaNum < 0 || visited[areaNum]) continue;
 
-        boolean[] visited = new boolean[areaMemo.size()];
-        for (int d = 0; d < 4; d++) {
-            int nr = r + dr[d];
-            int nc = c + dc[d];
-            if (isOut(nr, nc)) continue;
+			visited[areaNum] = true;
+			result += areaMemo.get(areaNum);
+		}
 
-            int areaNum = mapNumbering[nr][nc] - 1;
-            if (areaNum < 0 || visited[areaNum]) continue;
+		return result;
+	}
 
-            visited[areaNum] = true;
-            result += areaMemo.get(areaNum);
-        }
+	private static int bfs(Node node, int idx) {
+		int result = 1;
 
-        return result;
-    }
+		Queue<Node> queue = new LinkedList<>();
 
-    private static int bfs(Node node, int idx) {
-        int result = 1;
+		mapNumbering[node.r][node.c] = idx;
+		map[node.r][node.c] = '1';
+		queue.add(node);
 
-        Queue<Node> queue = new LinkedList<>();
+		while (!queue.isEmpty()) {
+			Node polled = queue.poll();
+			for (int d = 0; d < 4; d++) {
+				int nr = polled.r + dr[d];
+				int nc = polled.c + dc[d];
+				if (isOut(nr, nc)) continue;
+				if (map[nr][nc] == '1') continue;
 
-        mapNumbering[node.r][node.c] = idx;
-        map[node.r][node.c] = '1';
-        queue.add(node);
+				mapNumbering[nr][nc] = idx;
+				map[nr][nc] = '1';
+				result++;
+				queue.add(new Node(nr, nc));
+			}
+		}
 
-        while (!queue.isEmpty()) {
-            Node polled = queue.poll();
-            for (int d = 0; d < 4; d++) {
-                int nr = polled.r + dr[d];
-                int nc = polled.c + dc[d];
-                if (isOut(nr, nc)) continue;
-                if (map[nr][nc] == '1') continue;
+		return result;
+	}
 
-                mapNumbering[nr][nc] = idx;
-                map[nr][nc] = '1';
-                result++;
-                queue.add(new Node(nr, nc));
-            }
-        }
+	private static boolean isOut(int nr, int nc) {
+		return nr < 0 || nr >= N || nc < 0 || nc >= M;
+	}
 
-        return result;
-    }
+	static class Node {
+		int r, c;
 
-    private static boolean isOut(int nr, int nc) {
-        return nr < 0 || nr >= N || nc < 0 || nc >= M;
-    }
+		Node(int r, int c) {
+			this.r = r;
+			this.c = c;
+		}
+	}
 }

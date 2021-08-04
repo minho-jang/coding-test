@@ -9,135 +9,135 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Solution_1953_탈주범검거 {
-    static int[] dr = {-1, 1, 0, 0};
-    static int[] dc = {0, 0, -1, 1};
+	static int[] dr = {-1, 1, 0, 0};
+	static int[] dc = {0, 0, -1, 1};
 
-    static class Node {
-        int r, c;
-        int type;
-        boolean[] direction;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		System.setIn(new FileInputStream("input.txt"));
 
-        public Node(int r, int c, int type) {
-            super();
-            this.r = r;
-            this.c = c;
-            this.type = type;
-            if (type == 0) {                  //  상            하              좌            우
-                this.direction = new boolean[]{false, false, false, false};
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
+		StringBuilder answerSb = new StringBuilder();
 
-            } else if (type == 1) {
-                this.direction = new boolean[]{true, true, true, true};
+		int T = Integer.parseInt(br.readLine());
+		for (int tc = 1; tc <= T; tc++) {
 
-            } else if (type == 2) {
-                this.direction = new boolean[]{true, true, false, false};
+			stk = new StringTokenizer(br.readLine());
+			int R = Integer.parseInt(stk.nextToken());
+			int C = Integer.parseInt(stk.nextToken());
+			int holeR = Integer.parseInt(stk.nextToken());
+			int holeC = Integer.parseInt(stk.nextToken());
+			int L = Integer.parseInt(stk.nextToken());
 
-            } else if (type == 3) {
-                this.direction = new boolean[]{false, false, true, true};
+			Node[][] map = new Node[R][C];
+			for (int i = 0; i < R; i++) {
+				stk = new StringTokenizer(br.readLine());
+				for (int j = 0; j < C; j++) {
+					map[i][j] = new Node(i, j, Integer.parseInt(stk.nextToken()));
+				}
+			}
 
-            } else if (type == 4) {
-                this.direction = new boolean[]{true, false, false, true};
+			//BFS
+			boolean[][] visited = new boolean[R][C];
+			Queue<Node> queue = new LinkedList<>();
 
-            } else if (type == 5) {
-                this.direction = new boolean[]{false, true, false, true};
+			visited[holeR][holeC] = true;
+			queue.add(map[holeR][holeC]);
 
-            } else if (type == 6) {
-                this.direction = new boolean[]{false, true, true, false};
+			int count = 1;
+			int level = 1;
+			while (!queue.isEmpty()) {
+				if (level == L)
+					break;
 
-            } else if (type == 7) {
-                this.direction = new boolean[]{true, false, true, false};
+				int size = queue.size();
+				for (int i = 0; i < size; i++) {
+					Node polled = queue.poll();
+					for (int d = 0; d < 4; d++) {
+						if (!polled.direction[d])    // 현재 위치에서 연결된 곳이어야 함
+							continue;
 
-            }
-        }
+						int nr = polled.r + dr[d];
+						int nc = polled.c + dc[d];
 
-        @Override
-        public String toString() {
-            return "[" + r + ", " + c + ", " + type + "]";
-        }
-    }
+						if (nr < 0 || nr >= R || nc < 0 || nc >= C)    // 범위를 벗어나면 안됨
+							continue;
+						if (visited[nr][nc])    // 방문한 곳 또 방문할 필요 없음
+							continue;
+						if (!map[nr][nc].direction[getAcross(d)])    // 이동하려는 곳에 파이프 연결 되어있어야 함
+							continue;
 
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        System.setIn(new FileInputStream("input.txt"));
+						count++;
+						visited[nr][nc] = true;
+						queue.offer(map[nr][nc]);
+					}
+				}
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
-        StringBuilder answerSb = new StringBuilder();
+				level++;
+			}
 
-        int T = Integer.parseInt(br.readLine());
-        for (int tc = 1; tc <= T; tc++) {
+			answerSb.append("#").append(tc).append(" ").append(count).append("\n");
+		}
 
-            stk = new StringTokenizer(br.readLine());
-            int R = Integer.parseInt(stk.nextToken());
-            int C = Integer.parseInt(stk.nextToken());
-            int holeR = Integer.parseInt(stk.nextToken());
-            int holeC = Integer.parseInt(stk.nextToken());
-            int L = Integer.parseInt(stk.nextToken());
+		System.out.println(answerSb.toString());
+	}
 
-            Node[][] map = new Node[R][C];
-            for (int i = 0; i < R; i++) {
-                stk = new StringTokenizer(br.readLine());
-                for (int j = 0; j < C; j++) {
-                    map[i][j] = new Node(i, j, Integer.parseInt(stk.nextToken()));
-                }
-            }
+	private static int getAcross(int d) {    // 방향에 따라 반대편 방향 번호를 리턴
+		if (d == 0) {
+			return 1;
+		} else if (d == 1) {
+			return 0;
+		} else if (d == 2) {
+			return 3;
+		} else if (d == 3) {
+			return 2;
+		}
 
-            //BFS
-            boolean[][] visited = new boolean[R][C];
-            Queue<Node> queue = new LinkedList<>();
+		return -1;
+	}
 
-            visited[holeR][holeC] = true;
-            queue.add(map[holeR][holeC]);
+	static class Node {
+		int r, c;
+		int type;
+		boolean[] direction;
 
-            int count = 1;
-            int level = 1;
-            while (!queue.isEmpty()) {
-                if (level == L)
-                    break;
+		public Node(int r, int c, int type) {
+			super();
+			this.r = r;
+			this.c = c;
+			this.type = type;
+			if (type == 0) {                  //  상            하              좌            우
+				this.direction = new boolean[]{false, false, false, false};
 
-                int size = queue.size();
-                for (int i = 0; i < size; i++) {
-                    Node polled = queue.poll();
-                    for (int d = 0; d < 4; d++) {
-                        if (!polled.direction[d])    // 현재 위치에서 연결된 곳이어야 함
-                            continue;
+			} else if (type == 1) {
+				this.direction = new boolean[]{true, true, true, true};
 
-                        int nr = polled.r + dr[d];
-                        int nc = polled.c + dc[d];
+			} else if (type == 2) {
+				this.direction = new boolean[]{true, true, false, false};
 
-                        if (nr < 0 || nr >= R || nc < 0 || nc >= C)    // 범위를 벗어나면 안됨
-                            continue;
-                        if (visited[nr][nc])    // 방문한 곳 또 방문할 필요 없음
-                            continue;
-                        if (!map[nr][nc].direction[getAcross(d)])    // 이동하려는 곳에 파이프 연결 되어있어야 함
-                            continue;
+			} else if (type == 3) {
+				this.direction = new boolean[]{false, false, true, true};
 
-                        count++;
-                        visited[nr][nc] = true;
-                        queue.offer(map[nr][nc]);
-                    }
-                }
+			} else if (type == 4) {
+				this.direction = new boolean[]{true, false, false, true};
 
-                level++;
-            }
+			} else if (type == 5) {
+				this.direction = new boolean[]{false, true, false, true};
 
-            answerSb.append("#").append(tc).append(" ").append(count).append("\n");
-        }
+			} else if (type == 6) {
+				this.direction = new boolean[]{false, true, true, false};
 
-        System.out.println(answerSb.toString());
-    }
+			} else if (type == 7) {
+				this.direction = new boolean[]{true, false, true, false};
 
-    private static int getAcross(int d) {    // 방향에 따라 반대편 방향 번호를 리턴
-        if (d == 0) {
-            return 1;
-        } else if (d == 1) {
-            return 0;
-        } else if (d == 2) {
-            return 3;
-        } else if (d == 3) {
-            return 2;
-        }
+			}
+		}
 
-        return -1;
-    }
+		@Override
+		public String toString() {
+			return "[" + r + ", " + c + ", " + type + "]";
+		}
+	}
 }
 
 

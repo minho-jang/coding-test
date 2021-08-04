@@ -9,81 +9,81 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main_BOJ_15591_MooTubeSilver {
-    static class Node {
-        int num, weight;
+	public static void main(String[] args) throws Exception {
+		System.setIn(new FileInputStream("input.txt"));
 
-        Node(int num, int weight) {
-            this.num = num;
-            this.weight = weight;
-        }
-    }
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk;
 
-    public static void main(String[] args) throws Exception {
-        System.setIn(new FileInputStream("input.txt"));
+		stk = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(stk.nextToken());
+		int Q = Integer.parseInt(stk.nextToken());
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk;
+		ArrayList<Node>[] adjList = new ArrayList[N];
+		for (int i = 0; i < N; i++)
+			adjList[i] = new ArrayList<>();
 
-        stk = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(stk.nextToken());
-        int Q = Integer.parseInt(stk.nextToken());
+		for (int i = 0; i < N - 1; i++) {
+			stk = new StringTokenizer(br.readLine());
+			int from = Integer.parseInt(stk.nextToken()) - 1;
+			int to = Integer.parseInt(stk.nextToken()) - 1;
+			int weight = Integer.parseInt(stk.nextToken());
+			adjList[from].add(new Node(to, weight));
+			adjList[to].add(new Node(from, weight));
+		}
 
-        ArrayList<Node>[] adjList = new ArrayList[N];
-        for (int i = 0; i < N; i++)
-            adjList[i] = new ArrayList<>();
+		int[][] result = new int[N][N];
 
-        for (int i = 0; i < N - 1; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int from = Integer.parseInt(stk.nextToken()) - 1;
-            int to = Integer.parseInt(stk.nextToken()) - 1;
-            int weight = Integer.parseInt(stk.nextToken());
-            adjList[from].add(new Node(to, weight));
-            adjList[to].add(new Node(from, weight));
-        }
+		// 각 점에서 BFS
+		for (int i = 0; i < N; i++) {
+			int start = i;
 
-        int[][] result = new int[N][N];
+			boolean[] visited = new boolean[N];
+			Queue<Integer> queue = new LinkedList<>();
 
-        // 각 점에서 BFS
-        for (int i = 0; i < N; i++) {
-            int start = i;
+			visited[start] = true;
+			queue.add(start);
+			queue.add(Integer.MAX_VALUE);
 
-            boolean[] visited = new boolean[N];
-            Queue<Integer> queue = new LinkedList<>();
+			while (!queue.isEmpty()) {
+				int now = queue.poll();
+				int min = queue.poll();
 
-            visited[start] = true;
-            queue.add(start);
-            queue.add(Integer.MAX_VALUE);
+				for (Node next : adjList[now]) {
+					if (visited[next.num]) continue;
+					visited[next.num] = true;
 
-            while (!queue.isEmpty()) {
-                int now = queue.poll();
-                int min = queue.poll();
+					int m = Math.min(next.weight, min);
+					result[start][next.num] = m;
+					queue.add(next.num);
+					queue.add(m);
+				}
+			}
+		}
 
-                for (Node next : adjList[now]) {
-                    if (visited[next.num]) continue;
-                    visited[next.num] = true;
+		StringBuilder answerSb = new StringBuilder();
+		for (int i = 0; i < Q; i++) {
+			stk = new StringTokenizer(br.readLine());
+			int k = Integer.parseInt(stk.nextToken());
+			int v = Integer.parseInt(stk.nextToken()) - 1;
 
-                    int m = Math.min(next.weight, min);
-                    result[start][next.num] = m;
-                    queue.add(next.num);
-                    queue.add(m);
-                }
-            }
-        }
+			int count = 0;
+			for (int j = 0; j < N; j++) {
+				if (j != v && result[v][j] >= k)
+					count++;
+			}
+			answerSb.append(count).append("\n");
+		}
 
-        StringBuilder answerSb = new StringBuilder();
-        for (int i = 0; i < Q; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int k = Integer.parseInt(stk.nextToken());
-            int v = Integer.parseInt(stk.nextToken()) - 1;
+		System.out.print(answerSb.toString());
+	}
 
-            int count = 0;
-            for (int j = 0; j < N; j++) {
-                if (j != v && result[v][j] >= k)
-                    count++;
-            }
-            answerSb.append(count).append("\n");
-        }
+	static class Node {
+		int num, weight;
 
-        System.out.print(answerSb.toString());
-    }
+		Node(int num, int weight) {
+			this.num = num;
+			this.weight = weight;
+		}
+	}
 }

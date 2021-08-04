@@ -6,85 +6,85 @@ import java.util.Collections;
 
 // https://programmers.co.kr/learn/courses/30/lessons/72411
 public class Solution_PRG_2021Kakao_메뉴리뉴얼 {
-    static ArrayList<CombinationCount> combinationSet;
+	static ArrayList<CombinationCount> combinationSet;
 
-    public String[] solution(String[] orders, int[] course) {
-        String[] answer = {};
-        ArrayList<String> answerAL = new ArrayList<>();
+	static void makeCombination(int cnt, int start, char[] arr, int R, char[] res, int guestNum) {
+		if (cnt == R) {
+			// System.out.println(Arrays.toString(res));
 
-        char[][] ordersChar = new char[orders.length][];
-        for (int i = 0; i < orders.length; i++) {
-            ordersChar[i] = orders[i].toCharArray();
-            Arrays.sort(ordersChar[i]);
-        }
+			for (CombinationCount cc : combinationSet) {
+				if (cc.comb.equals(new String(res))) {
+					cc.count++;
+					return;
+				}
+			}
 
-        for (int menuNum : course) {
-            combinationSet = new ArrayList<>();
+			combinationSet.add(new CombinationCount(new String(res)));
 
-            for (int i = 0; i < ordersChar.length; i++) {
-                if (ordersChar[i].length >= menuNum)
-                    makeCombination(0, 0, ordersChar[i], menuNum, new char[menuNum], i);
-            }
+			return;
+		}
 
-            Collections.sort(combinationSet, (o1, o2) -> {
-                if (o1.count == o2.count)
-                    return o1.comb.compareTo(o2.comb);
-                else
-                    return o2.count - o1.count;
-            });
+		for (int i = start; i < arr.length; i++) {
+			res[cnt] = arr[i];
+			makeCombination(cnt + 1, i + 1, arr, R, res, guestNum);
+		}
+	}
 
-            if (combinationSet.isEmpty()) continue;
+	public String[] solution(String[] orders, int[] course) {
+		String[] answer = {};
+		ArrayList<String> answerAL = new ArrayList<>();
 
-            int max = combinationSet.get(0).count;
-            for (CombinationCount cc : combinationSet) {
-                if (max < 2) break;
-                if (cc.count < max) break;
-                answerAL.add(cc.comb);
-            }
-        }
+		char[][] ordersChar = new char[orders.length][];
+		for (int i = 0; i < orders.length; i++) {
+			ordersChar[i] = orders[i].toCharArray();
+			Arrays.sort(ordersChar[i]);
+		}
 
-        Collections.sort(answerAL);
+		for (int menuNum : course) {
+			combinationSet = new ArrayList<>();
 
-        answer = new String[answerAL.size()];
-        for (int i = 0; i < answerAL.size(); i++) {
-            answer[i] = answerAL.get(i);
-        }
-        return answer;
-    }
+			for (int i = 0; i < ordersChar.length; i++) {
+				if (ordersChar[i].length >= menuNum)
+					makeCombination(0, 0, ordersChar[i], menuNum, new char[menuNum], i);
+			}
 
-    static void makeCombination(int cnt, int start, char[] arr, int R, char[] res, int guestNum) {
-        if (cnt == R) {
-            // System.out.println(Arrays.toString(res));
+			Collections.sort(combinationSet, (o1, o2) -> {
+				if (o1.count == o2.count)
+					return o1.comb.compareTo(o2.comb);
+				else
+					return o2.count - o1.count;
+			});
 
-            for (CombinationCount cc : combinationSet) {
-                if (cc.comb.equals(new String(res))) {
-                    cc.count++;
-                    return;
-                }
-            }
+			if (combinationSet.isEmpty()) continue;
 
-            combinationSet.add(new CombinationCount(new String(res)));
+			int max = combinationSet.get(0).count;
+			for (CombinationCount cc : combinationSet) {
+				if (max < 2) break;
+				if (cc.count < max) break;
+				answerAL.add(cc.comb);
+			}
+		}
 
-            return;
-        }
+		Collections.sort(answerAL);
 
-        for (int i = start; i < arr.length; i++) {
-            res[cnt] = arr[i];
-            makeCombination(cnt + 1, i + 1, arr, R, res, guestNum);
-        }
-    }
+		answer = new String[answerAL.size()];
+		for (int i = 0; i < answerAL.size(); i++) {
+			answer[i] = answerAL.get(i);
+		}
+		return answer;
+	}
 
-    static class CombinationCount {
-        String comb;
-        int count;
+	static class CombinationCount {
+		String comb;
+		int count;
 
-        CombinationCount(String comb) {
-            this.comb = comb;
-            this.count = 1;
-        }
+		CombinationCount(String comb) {
+			this.comb = comb;
+			this.count = 1;
+		}
 
-        public String toString() {
-            return comb + "(" + count + ")";
-        }
-    }
+		public String toString() {
+			return comb + "(" + count + ")";
+		}
+	}
 }

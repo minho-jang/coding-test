@@ -3,46 +3,46 @@ package programmers;
 import java.util.Arrays;
 
 public class Solution_PRG_징검다리 {
-    public int solution(int distance, int[] rocks, int n) {
-        int answer = 0;
+	public static void main(String[] args) {
+		Solution_PRG_징검다리 sol = new Solution_PRG_징검다리();
 
-        Arrays.sort(rocks);
+		int distance = 25;
+		int[] rocks = {2, 14, 11, 21, 17};
+		int n = 2;
+		System.out.println(sol.solution(distance, rocks, n));
+	}
 
-        int left = 0;
-        int right = distance;
+	public int solution(int distance, int[] rocks, int n) {
+		int answer = 0;
 
-        while (right - left >= 0) {
-            int mid = (left + right) / 2;
+		Arrays.sort(rocks);
 
-            int prevStone = 0;
-            int removedCount = 0;
-            for (int i = 0; i < rocks.length; i++) {
-                if (rocks[i] - prevStone < mid)
-                    removedCount++;
-                else
-                    prevStone = rocks[i];
-            }
+		int left = 0;
+		int right = distance;
 
-            if (distance - prevStone < mid)
-                removedCount++;
+		while (right - left >= 0) {
+			int mid = (left + right) / 2;
 
-            if (removedCount > n)
-                right = mid - 1;
-            else {
-                answer = mid;
-                left = mid + 1;
-            }
-        }
+			int prevStone = 0;
+			int removedCount = 0;
+			for (int i = 0; i < rocks.length; i++) {
+				if (rocks[i] - prevStone < mid)
+					removedCount++;
+				else
+					prevStone = rocks[i];
+			}
 
-        return answer;
-    }
+			if (distance - prevStone < mid)
+				removedCount++;
 
-    public static void main(String[] args) {
-        Solution_PRG_징검다리 sol = new Solution_PRG_징검다리();
+			if (removedCount > n)
+				right = mid - 1;
+			else {
+				answer = mid;
+				left = mid + 1;
+			}
+		}
 
-        int distance = 25;
-        int[] rocks = {2, 14, 11, 21, 17};
-        int n = 2;
-        System.out.println(sol.solution(distance, rocks, n));
-    }
+		return answer;
+	}
 }

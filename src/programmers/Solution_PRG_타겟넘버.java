@@ -1,28 +1,28 @@
 package programmers;
 
 public class Solution_PRG_타겟넘버 {
-    static int[] numbers;
-    static int answer, N, target;
+	static int[] numbers;
+	static int answer, N, target;
 
-    public int solution(int[] numbers, int target) {
-        this.numbers = numbers;
-        this.N = numbers.length;
-        this.target = target;
+	private static void dfs(int cnt, int result) {
+		if (cnt == N) {
+			if (result == target)
+				answer++;
+			return;
+		}
 
-        dfs(0, 0);
+		dfs(cnt + 1, result + numbers[cnt]);
+		dfs(cnt + 1, result - numbers[cnt]);
+	}
 
-        return answer;
-    }
+	public int solution(int[] numbers, int target) {
+		this.numbers = numbers;
+		this.N = numbers.length;
+		this.target = target;
 
-    private static void dfs(int cnt, int result) {
-        if (cnt == N) {
-            if (result == target)
-                answer++;
-            return;
-        }
+		dfs(0, 0);
 
-        dfs(cnt + 1, result + numbers[cnt]);
-        dfs(cnt + 1, result - numbers[cnt]);
-    }
+		return answer;
+	}
 }
 

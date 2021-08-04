@@ -13,55 +13,55 @@ package minho_jang.coding_test;
 import java.util.ArrayList;
 
 public class Solution12 {
-    public String[] solution(int n, int[] arr1, int[] arr2) {
-        String[] answer = new String[n];
+	public String[] solution(int n, int[] arr1, int[] arr2) {
+		String[] answer = new String[n];
 
-        ArrayList<String> answerArrlst = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int encrypted = arr1[i] | arr2[i];
-            String decrypted = intToBinary(encrypted, n);
-            answerArrlst.add(decrypted);
-        }
+		ArrayList<String> answerArrlst = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			int encrypted = arr1[i] | arr2[i];
+			String decrypted = intToBinary(encrypted, n);
+			answerArrlst.add(decrypted);
+		}
 
-        for (int i = 0; i < answerArrlst.size(); i++) {
-            String s = answerArrlst.get(i);
-            StringBuffer sb = new StringBuffer();
-            for (int j = 0; j < s.length(); j++) {
-                char c = s.charAt(j);
-                if (c == '1') {
-                    sb.append('#');
-                } else {
-                    sb.append(' ');
-                }
-            }
-            answer[i] = sb.toString();
-        }
+		for (int i = 0; i < answerArrlst.size(); i++) {
+			String s = answerArrlst.get(i);
+			StringBuffer sb = new StringBuffer();
+			for (int j = 0; j < s.length(); j++) {
+				char c = s.charAt(j);
+				if (c == '1') {
+					sb.append('#');
+				} else {
+					sb.append(' ');
+				}
+			}
+			answer[i] = sb.toString();
+		}
 
-        return answer;
-    }
+		return answer;
+	}
 
-    private String intToBinary(int num, int n) {
-        int q = num;
-        StringBuffer sb = new StringBuffer();
-        while (q / 2 != 0) {
-            String r = Integer.toString(q % 2);
-            sb.append(r);
+	private String intToBinary(int num, int n) {
+		int q = num;
+		StringBuffer sb = new StringBuffer();
+		while (q / 2 != 0) {
+			String r = Integer.toString(q % 2);
+			sb.append(r);
 
-            q /= 2;
-        }
-        sb.append('1');
-        if (sb.length() < n) {
-            int count = n - sb.length();
-            for (int i = 0; i < count; i++) {
-                sb.append('0');
-            }
-        }
+			q /= 2;
+		}
+		sb.append('1');
+		if (sb.length() < n) {
+			int count = n - sb.length();
+			for (int i = 0; i < count; i++) {
+				sb.append('0');
+			}
+		}
 
-        StringBuffer revSb = new StringBuffer();
-        for (int i = sb.length() - 1; i >= 0; i--) {
-            revSb.append(sb.charAt(i));
-        }
+		StringBuffer revSb = new StringBuffer();
+		for (int i = sb.length() - 1; i >= 0; i--) {
+			revSb.append(sb.charAt(i));
+		}
 
-        return revSb.toString();
-    }
+		return revSb.toString();
+	}
 }

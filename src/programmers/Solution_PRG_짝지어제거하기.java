@@ -4,37 +4,37 @@ import java.util.Stack;
 
 public class Solution_PRG_짝지어제거하기 {
 
-    public int solution(String s) {
-        int answer = -1;
+	public static void main(String[] args) {
+		Solution_PRG_짝지어제거하기 sol = new Solution_PRG_짝지어제거하기();
 
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char cur = s.charAt(i);
-            if (stack.isEmpty()) {
-                stack.push(cur);
-                continue;
-            }
+		String s = "cdcd";
+		System.out.println(sol.solution(s));
+	}
 
-            char peeked = stack.peek();
-            if (peeked == cur)
-                stack.pop();
-            else
-                stack.push(cur);
-        }
+	public int solution(String s) {
+		int answer = -1;
 
-        if (stack.isEmpty())
-            answer = 1;
-        else
-            answer = 0;
+		Stack<Character> stack = new Stack<>();
+		for (int i = 0; i < s.length(); i++) {
+			char cur = s.charAt(i);
+			if (stack.isEmpty()) {
+				stack.push(cur);
+				continue;
+			}
 
-        return answer;
-    }
+			char peeked = stack.peek();
+			if (peeked == cur)
+				stack.pop();
+			else
+				stack.push(cur);
+		}
 
-    public static void main(String[] args) {
-        Solution_PRG_짝지어제거하기 sol = new Solution_PRG_짝지어제거하기();
+		if (stack.isEmpty())
+			answer = 1;
+		else
+			answer = 0;
 
-        String s = "cdcd";
-        System.out.println(sol.solution(s));
-    }
+		return answer;
+	}
 
 }
