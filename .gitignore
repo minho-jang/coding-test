@@ -31,5 +31,4 @@ secret/
 input.txt
 
 ## IntelliJ
-/.idea
-coding-test.iml
+.idea
