@@ -2,6 +2,108 @@ package programmers;
 
 class Solution_PRG_2021Kakao_신규아이디추천 {
 	public String solution(String new_id) {
+		String answer = new_id;
+
+		answer = answer.toLowerCase();
+		answer = filterInvalidChar(answer);
+		answer = removeRepeatedDot(answer);
+		answer = removeEdgeDot(answer);
+		answer = addAIfEmpty(answer);
+		answer = sliceFifteen(answer);
+		answer = repeatIfLengthLessThanTwo(answer);
+
+		return answer;
+	}
+
+	private String repeatIfLengthLessThanTwo(String s) {
+		StringBuilder sb = new StringBuilder(s);
+		if (sb.length() <= 2) {
+			while (sb.length() != 3) {
+				sb.append(sb.charAt(s.length() - 1));
+			}
+		}
+		return sb.toString();
+	}
+
+	private String sliceFifteen(String s) {
+		if (s.length() >= 15) {
+			s = s.substring(0, 15);
+		}
+		return removeEdgeDot(s);
+	}
+
+	private String addAIfEmpty(String s) {
+		if (s.length() == 0) {
+			return "a";
+		} else {
+			return s;
+		}
+	}
+
+	private String removeEdgeDot(String s) {
+		if (s.length() > 0 && s.charAt(0) == '.') {
+			s = s.substring(1);
+		}
+		if (s.length() > 0 && s.charAt(s.length() - 1) == '.') {
+			s = s.substring(0, s.length() - 1);
+		}
+
+		return s;
+	}
+
+	private String removeRepeatedDot(String s) {
+		StringBuilder sb = new StringBuilder();
+		boolean dotRepeat = false;
+		for (char c : s.toCharArray()) {
+			if (c == '.') {
+				if (!dotRepeat) {
+					sb.append(c);
+					dotRepeat = true;
+				}
+
+			} else {
+				sb.append(c);
+				dotRepeat = false;
+			}
+		}
+		return sb.toString();
+	}
+
+	private String filterInvalidChar(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (char c : s.toCharArray()) {
+			if (isValidCharacter(c)) {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
+
+	private boolean isValidCharacter(char c) {
+		if ('a' <= c && c <= 'z') {
+			return true;
+		} else if ('0' <= c && c <= '9') {
+			return true;
+		} else if (c == '-' || c == '_' || c == '.') {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static void main(String[] args) {
+		Solution_PRG_2021Kakao_신규아이디추천 sol = new Solution_PRG_2021Kakao_신규아이디추천();
+
+		String new_id = "abcdefghijklmn.p";
+		System.out.println(sol.solution(new_id));
+	}
+}
+
+
+/*
+
+class Solution_PRG_2021Kakao_신규아이디추천 {
+	public String solution(String new_id) {
 		StringBuilder newId = new StringBuilder(new_id);
 
 //        System.out.println(newId.toString());
@@ -75,3 +177,5 @@ class Solution_PRG_2021Kakao_신규아이디추천 {
 		return newId.toString();
 	}
 }
+
+ */
