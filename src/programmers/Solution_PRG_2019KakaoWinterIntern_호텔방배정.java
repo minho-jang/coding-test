@@ -3,8 +3,36 @@ package programmers;
 import java.util.HashMap;
 
 class Solution_PRG_2019KakaoWinterIntern_호텔방배정 {
+	HashMap<Long, Long> map = new HashMap<>();
 
-	HashMap<Long, Long> map;
+	public long[] solution(long k, long[] room_number) {
+		long[] answer = new long[room_number.length];
+
+		int answerIdx = 0;
+
+		for (long roomNumber : room_number) {
+			answer[answerIdx++] = getEmptyRoom(roomNumber);
+		}
+
+		return answer;
+	}
+
+	long getEmptyRoom(long now) {
+		if (map.containsKey(now)) {
+			long next = getEmptyRoom(map.get(now));
+			map.put(now, next);
+			return next;
+
+		} else {
+			map.put(now, now + 1);
+			return now;
+		}
+	}
+}
+
+/*
+
+HashMap<Long, Long> map;
 
 	public long[] solution(long k, long[] room_number) {
 		int len = room_number.length;
@@ -31,4 +59,5 @@ class Solution_PRG_2019KakaoWinterIntern_호텔방배정 {
 		map.put(roomNumber, empty);
 		return empty;
 	}
-}
+
+ */
